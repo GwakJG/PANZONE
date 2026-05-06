@@ -1,6 +1,6 @@
 const express = require('express')
 const bcrypt = require('bcryptjs')
-const { pool } = require('../db')
+const { pool, formatDateOnly } = require('../db')
 const { authMiddleware, sign } = require('../middleware/auth')
 const { requireActive } = require('../middleware/requireActive')
 const { calcTier } = require('../lib/tier')
@@ -29,9 +29,7 @@ function publicUser(u) {
     postCount: u.post_count || 0,
     commentCount: u.comment_count || 0,
     visitCount: u.visit_count || 0,
-    lastVisitDate: u.last_visit_date
-      ? (u.last_visit_date instanceof Date ? u.last_visit_date.toISOString().slice(0, 10) : String(u.last_visit_date).slice(0, 10))
-      : null,
+    lastVisitDate: formatDateOnly(u.last_visit_date),
     suspended: !!u.suspended_at,
     suspendReason: u.suspend_reason || null,
   }

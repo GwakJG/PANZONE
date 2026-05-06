@@ -2,7 +2,7 @@
 // Add feature endpoints here (reports queue, featured posts management, user tier edit, etc).
 
 const express = require('express')
-const { pool } = require('../db')
+const { pool, formatDateOnly } = require('../db')
 const { authMiddleware } = require('../middleware/auth')
 const { requireAdmin } = require('../middleware/requireAdmin')
 const { calcTier } = require('../lib/tier')
@@ -200,9 +200,7 @@ router.get('/users', async (req, res) => {
         postCount: u.post_count,
         commentCount: u.comment_count,
         visitCount: u.visit_count,
-        lastVisitDate: u.last_visit_date
-          ? (u.last_visit_date instanceof Date ? u.last_visit_date.toISOString().slice(0, 10) : String(u.last_visit_date).slice(0, 10))
-          : null,
+        lastVisitDate: formatDateOnly(u.last_visit_date),
         achievedTier: u.achieved_tier,
         tier: calcTier(u),
         suspended: !!u.suspended_at,

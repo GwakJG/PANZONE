@@ -61,4 +61,17 @@ async function runMigrations() {
   }
 }
 
-module.exports = { pool, runMigrations }
+// mysql2 returns DATE columns as JS Date objects parsed in the server's local
+// timezone, so calling .toISOString().slice(0,10) shifts the date by the UTC
+// offset (e.g. on a UTC+2 host, '2026-05-06' becomes '2026-05-05'). Use the
+// local accessors instead so the value round-trips as YYYY-MM-DD.
+function formatDateOnly(value) {
+  if (value == null) return null
+  if (typeof value === 'string') return value.slice(0, 10)
+  if (value instanceof Date) {
+    return `${value.getFullYear()}-${String(value.getMonth() + 1).padStart(2, '0')}-${String(value.getDate()).padStart(2, '0')}`
+  }
+  return String(value).slice(0, 10)
+}
+
+module.exports = { pool, runMigrations, formatDateOnly }

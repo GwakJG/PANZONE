@@ -1,5 +1,5 @@
 const express = require('express')
-const { pool } = require('../db')
+const { pool, formatDateOnly } = require('../db')
 const { calcTier } = require('../lib/tier')
 const { optionalAuth } = require('../middleware/auth')
 const { isAdminViewer } = require('../lib/viewer')
@@ -78,9 +78,7 @@ router.get('/:name', optionalAuth, async (req, res) => {
         postCount: u.visible_post_count,
         commentCount: u.comment_count,
         visitCount: u.visit_count,
-        lastVisitDate: u.last_visit_date
-          ? (u.last_visit_date instanceof Date ? u.last_visit_date.toISOString().slice(0, 10) : String(u.last_visit_date).slice(0, 10))
-          : null,
+        lastVisitDate: formatDateOnly(u.last_visit_date),
         suspended: !!u.suspended_at,
         suspendReason: u.suspend_reason || null,
         suspendedAt: u.suspended_at
