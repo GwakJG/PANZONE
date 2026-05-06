@@ -9,7 +9,7 @@ const translations = { en, ko }
 
 export function LanguageProvider({ children }) {
   const [lang, setLang] = useState(() => {
-    return localStorage.getItem(LANG_KEY) || 'en'
+    return localStorage.getItem(LANG_KEY) || 'ko'
   })
 
   useEffect(() => {
