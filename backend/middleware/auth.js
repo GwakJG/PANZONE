@@ -18,12 +18,15 @@ function sign(user, { persistent = false } = {}) {
 // Also bumps achieved_tier when the visit pushes the user past a threshold.
 async function trackDailyVisit(userId) {
   try {
+    // Use KST date so users in Korea see "today" advance at midnight KST,
+    // not midnight UTC (server runs UTC).
+    const KST_DATE = "DATE(CONVERT_TZ(UTC_TIMESTAMP(), '+00:00', '+09:00'))"
     const [result] = await pool.query(
       `UPDATE users
        SET visit_count = visit_count + 1,
-           last_visit_date = CURDATE()
+           last_visit_date = ${KST_DATE}
        WHERE id = ?
-         AND (last_visit_date IS NULL OR last_visit_date < CURDATE())`,
+         AND (last_visit_date IS NULL OR last_visit_date < ${KST_DATE})`,
       [userId]
     )
     if (result.affectedRows > 0) {

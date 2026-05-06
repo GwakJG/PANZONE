@@ -66,9 +66,9 @@ router.get('/dashboard', async (req, res) => {
       pool.query(
         `SELECT COUNT(*) AS c FROM posts WHERE deleted_at IS NULL AND admin_notice_at IS NULL`
       ),
-      // 10 — today active users (users whose last_visit_date is today)
+      // 10 — today active users (users whose last_visit_date is today, KST)
       pool.query(
-        `SELECT COUNT(*) AS c FROM users WHERE last_visit_date = CURDATE()`
+        `SELECT COUNT(*) AS c FROM users WHERE last_visit_date = DATE(CONVERT_TZ(UTC_TIMESTAMP(), '+00:00', '+09:00'))`
       ),
       // 11 — today comments (non-deleted)
       pool.query(
