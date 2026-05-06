@@ -28,7 +28,7 @@ export default function ForgotPassword() {
         ? `${t('forgot.sent')} (dev: ${resp.devTempPassword})`
         : t('forgot.sent')
       showToast(msg, 'success')
-      setTimeout(() => navigate('/login'), 2000)
+      setTimeout(() => navigate('/login', { replace: true }), 2000)
     } catch (err) {
       showToast(formatError(err), 'error')
     } finally {
