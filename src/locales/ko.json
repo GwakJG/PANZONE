@@ -1,0 +1,612 @@
+{
+  "errors": {
+    "unknown": "요청 처리에 실패했습니다",
+    "network": "네트워크 오류가 발생했습니다",
+    "internal": "일시적인 오류가 발생했습니다",
+    "invalidEmail": "이메일 양식이 올바르지 않습니다",
+    "emailAlreadyRegistered": "이미 가입된 이메일입니다",
+    "emailNotRegistered": "등록되지 않은 이메일입니다",
+    "invalidCode": "인증번호가 일치하지 않습니다",
+    "codeRequired": "인증번호를 입력해주세요",
+    "codeExpired": "인증번호가 만료되었습니다",
+    "invalidPassword": "비밀번호 형식이 올바르지 않습니다",
+    "invalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다",
+    "credentialsRequired": "이메일과 비밀번호를 입력해주세요",
+    "invalidNickname": "닉네임 형식이 올바르지 않습니다",
+    "nicknameTaken": "이미 사용 중인 닉네임입니다",
+    "userNotFound": "사용자를 찾을 수 없습니다",
+    "forbidden": "권한이 없습니다",
+    "postNotFound": "게시글을 찾을 수 없습니다",
+    "commentNotFound": "댓글을 찾을 수 없습니다",
+    "boardNotFound": "게시판을 찾을 수 없습니다",
+    "boardReadOnly": "이 게시판에는 글을 작성할 수 없습니다",
+    "titleRequired": "제목을 입력해주세요",
+    "titleTooLong": "제목이 너무 깁니다",
+    "bodyRequired": "내용을 입력해주세요",
+    "bodyTooLong": "내용이 너무 깁니다",
+    "imageOnly": "이미지 파일만 업로드 가능합니다",
+    "imageFormat": "지원하지 않는 이미지 형식입니다",
+    "fileTooLarge": "파일 크기가 너무 큽니다",
+    "noFile": "파일을 선택해주세요",
+    "onlyOneLevelReplies": "답글은 한 단계까지만 작성할 수 있습니다",
+    "alreadyReported": "이미 신고한 항목입니다",
+    "reasonRequired": "사유를 입력해주세요"
+  },
+  "common": {
+    "loginRequired": "로그인이 필요한 서비스입니다",
+    "loginRequiredTitle": "로그인이 필요합니다",
+    "loginRequiredMessage": "이 기능을 사용하려면 로그인이 필요합니다.",
+    "goToLogin": "로그인 하러 가기",
+    "loading": "불러오는 중...",
+    "loadError": "불러오기에 실패했습니다",
+    "empty": "게시글이 없습니다",
+    "deleteConfirm": "정말 삭제하시겠습니까?",
+    "saveError": "저장에 실패했습니다",
+    "deleteError": "삭제에 실패했습니다"
+  },
+  "header": {
+    "community": "커뮤니티",
+    "statsTracker": "전적 검색"
+  },
+  "footer": {
+    "tagline": "PUBG 배틀그라운드 커뮤니티",
+    "terms": "이용약관",
+    "privacy": "개인정보처리방침",
+    "contact": "문의",
+    "disclaimer": "PanZone은 KRAFTON / PUBG STUDIOS의 공식 서비스가 아니며, 팬이 운영하는 비공식 커뮤니티입니다."
+  },
+  "legal": {
+    "terms": {
+      "title": "이용약관",
+      "effective": "시행일: 2026년 4월 24일",
+      "preamble": "본 약관은 PanZone(이하 \"서비스\")을 이용하는 회원과 운영자 간의 권리·의무·책임사항을 규정합니다. 회원은 본 약관에 동의함으로써 서비스 이용 계약이 체결됩니다.",
+      "sections": [
+        {
+          "heading": "제1조 (목적)",
+          "body": "본 약관은 운영자가 제공하는 PUBG 전적 조회, 커뮤니티 게시판, 알림 등 서비스의 이용 조건과 절차, 운영자와 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다."
+        },
+        {
+          "heading": "제2조 (정의)",
+          "body": "- \"서비스\"란 운영자가 제공하는 PUBG 전적 조회, 커뮤니티 게시판, 알림, 기타 부수 기능 전부를 말합니다.\n- \"회원\"이란 본 약관에 동의하고 이메일 인증을 완료하여 서비스에 가입한 자를 말합니다.\n- \"게시물\"이란 회원이 서비스 내에 올린 글, 댓글, 이미지, 투표 등 모든 콘텐츠를 말합니다.\n- \"운영자\"란 본 서비스를 운영·관리하는 개인을 말합니다."
+        },
+        {
+          "heading": "제3조 (약관의 효력 및 변경)",
+          "body": "1. 본 약관은 회원이 동의하고 서비스를 이용함으로써 효력이 발생합니다.\n2. 운영자는 관련 법령 변경, 서비스 정책 변경 등 필요한 경우 약관을 변경할 수 있습니다.\n3. 약관 변경 시 최소 7일 전(회원에게 불리한 변경의 경우 30일 전)에 서비스 내 공지사항으로 안내합니다.\n4. 회원이 변경된 약관에 동의하지 않을 경우 회원 탈퇴를 통해 서비스 이용을 중단할 수 있습니다."
+        },
+        {
+          "heading": "제4조 (회원가입 및 계정 관리)",
+          "body": "1. 본 서비스는 만 14세 이상만 가입할 수 있습니다. 만 14세 미만 아동은 「개인정보 보호법」 제22조의2에 따라 가입이 제한됩니다.\n2. 회원가입은 본인 소유의 이메일 주소로 인증을 거쳐 이루어집니다.\n3. 한 사람이 복수의 계정을 생성하는 행위는 금지됩니다.\n4. 회원은 계정 정보(비밀번호 등)를 안전하게 관리할 책임이 있으며, 본인의 관리 소홀로 인한 손해에 대해 운영자는 책임을 지지 않습니다.\n5. 공식 관계를 오인케 하는 닉네임(상표권·운영진 사칭 등)은 가입 단계에서 제한됩니다."
+        },
+        {
+          "heading": "제5조 (회원의 의무 및 금지 행위)",
+          "body": "회원은 서비스 이용 시 관련 법령과 본 약관을 준수해야 하며, 다음 행위를 하여서는 안 됩니다:\n- 타인의 개인정보·아이디·비밀번호 도용 또는 사칭\n- 동일·유사한 내용의 반복 게시(도배)\n- 광고성·홍보성 게시물 무단 게재\n- 욕설, 혐오 발언, 차별적 표현, 성희롱\n- 음란물, 성인물, 불법 촬영물, 폭력적 콘텐츠 게시\n- 타인의 저작권·초상권·개인정보 침해\n- 서비스 운영을 방해하는 행위(해킹, 무단 크롤링, 비정상 접근 등)\n- 기타 관련 법령에 위반되거나 공서양속에 반하는 행위"
+        },
+        {
+          "heading": "제6조 (게시물의 저작권 및 이용권)",
+          "body": "1. 회원이 작성한 게시물의 저작권은 해당 회원에게 귀속됩니다.\n2. 회원은 자신의 게시물에 대하여 운영자가 아래 목적으로 사용할 수 있는 비독점적·무상 이용권을 부여합니다.\n- 서비스 내 게시 및 전송\n- 서비스 홍보 목적의 제한적 노출\n- 관련 법령에 따른 보관 및 백업\n3. 회원 탈퇴 또는 게시물 삭제 시 위 이용권은 소멸합니다. 단, 타인의 게시물에 인용된 경우 일부가 유지될 수 있습니다.\n4. 타인의 저작권을 침해하는 게시물에 대한 책임은 전적으로 해당 회원에게 있습니다."
+        },
+        {
+          "heading": "제7조 (신고 및 이용 제한)",
+          "body": "1. 회원은 타인의 부적절한 게시물을 \"신고\" 기능을 통해 운영자에게 알릴 수 있습니다.\n2. 운영자는 회원이 본 약관을 위반하거나 서비스 운영에 지장을 초래한 경우 다음 조치를 할 수 있습니다.\n- 게시물 삭제 또는 블라인드 처리\n- 경고\n- 일정 기간 또는 영구 계정 정지\n3. 계정이 정지된 회원은 본 약관 제8조에 따라 이의 신청을 할 수 있습니다."
+        },
+        {
+          "heading": "제8조 (이의 신청 및 계정 복구)",
+          "body": "1. 회원은 자신에게 취해진 조치에 이의가 있을 경우 프로필 페이지의 \"문의하기\" 기능을 통해 이의를 제기할 수 있습니다.\n2. 운영자는 접수된 이의 신청을 성실히 검토하여 결과를 회신합니다.\n3. 계정 정지 후 30일이 경과하면 해당 회원의 게시물·프로필 정보는 자동으로 삭제되며, 이후에는 계정 복구가 불가능합니다.\n4. 동일 이메일·닉네임으로의 재가입 가능 여부는 운영자의 판단에 따릅니다."
+        },
+        {
+          "heading": "제9조 (회원 탈퇴)",
+          "body": "1. 회원은 언제든지 프로필 페이지에서 회원 탈퇴를 할 수 있습니다.\n2. 탈퇴 시 회원의 게시물·댓글은 삭제되며, 개인 식별 정보는 파기됩니다.\n3. 다만 다른 회원의 게시물 맥락 유지를 위해 댓글 스레드 구조는 \"삭제된 댓글\" 표시로 유지될 수 있습니다."
+        },
+        {
+          "heading": "제10조 (서비스 제공의 변경·중단)",
+          "body": "1. 운영자는 시스템 점검, 장애 복구, 천재지변, 기타 불가피한 사유로 서비스의 일부 또는 전부를 일시 중단할 수 있습니다.\n2. 운영자는 합리적인 사유(운영 여건 변화 등)로 서비스 전체를 종료할 수 있으며, 이 경우 최소 30일 전 공지합니다."
+        },
+        {
+          "heading": "제11조 (면책)",
+          "body": "1. 서비스는 비상업·비공식 팬 커뮤니티로서, 회원 간의 거래, 개인 간 분쟁, 게시물 내용의 정확성에 대해 운영자는 책임을 지지 않습니다.\n2. 운영자는 천재지변, 서버 장애, 해킹, 제3자의 불법 행위 등 운영자의 귀책사유가 아닌 사유로 인한 서비스 중단·데이터 손실에 대해 책임을 지지 않습니다.\n3. 서비스는 KRAFTON, PUBG STUDIOS 및 그 계열사와 공식적으로 관련이 없으며, PUBG·BATTLEGROUNDS 등 관련 상표는 각 권리자의 소유입니다. 본 서비스는 명목적 사용(nominative fair use)의 범위에서만 해당 상표를 사용합니다.\n4. 외부 링크 및 외부 서비스(광고, 이메일 발송 업체 등)의 내용에 대해 운영자는 책임을 지지 않습니다."
+        },
+        {
+          "heading": "제12조 (광고 게재)",
+          "body": "운영 비용 충당을 위해 Google AdSense 등 제3자 광고 네트워크를 통한 광고가 서비스 내에 게재될 수 있습니다. 광고 관련 개인정보 처리는 \"개인정보처리방침\" 및 해당 광고 네트워크의 정책을 따릅니다."
+        },
+        {
+          "heading": "제13조 (준거법 및 관할)",
+          "body": "1. 본 약관의 해석 및 서비스 이용과 관련하여 발생한 분쟁은 대한민국 법령에 따라 해결합니다.\n2. 분쟁이 발생한 경우 민사소송법상 관할 법원을 제1심 관할로 합니다."
+        },
+        {
+          "heading": "제14조 (연락처)",
+          "body": "서비스와 관련한 문의·신고·이의 신청은 서비스 내 \"문의하기\" 기능을 이용해 주시기 바랍니다."
+        }
+      ]
+    },
+    "privacy": {
+      "title": "개인정보처리방침",
+      "effective": "시행일: 2026년 4월 24일",
+      "preamble": "PanZone(이하 \"서비스\")은 「개인정보 보호법」 등 관련 법령을 준수하며, 이용자의 개인정보를 안전하게 보호하기 위해 최선을 다하고 있습니다. 본 방침은 서비스가 수집·이용·보관·파기하는 개인정보의 처리 방침을 안내합니다.",
+      "sections": [
+        {
+          "heading": "1. 수집하는 개인정보 항목",
+          "body": "**필수 항목**\n- 이메일 주소\n- 닉네임\n- 비밀번호(bcrypt 해시로 암호화 저장, 원본 복원 불가)\n\n**선택 항목**\n- 프로필 이미지\n- 한줄 소개(bio)\n\n**자동 수집 항목**\n- 접속 IP, 접속 일시\n- 쿠키(세션 유지, 언어 설정)\n- 브라우저 종류, 운영체제\n\n**이용자가 직접 입력**\n- 게시물(글·댓글·업로드 이미지·투표)\n- 신고·문의 시 작성한 내용과 첨부 이미지"
+        },
+        {
+          "heading": "2. 개인정보의 수집 및 이용 목적",
+          "body": "- 회원 가입 및 본인 식별\n- 서비스 제공(게시물 작성·조회, 알림 발송 등)\n- 부정 이용 방지(다중 계정, 사칭, 도배 방지)\n- 이용 규칙 위반 시 조치 및 이의 신청 처리\n- 서비스 개선을 위한 통계 분석(개별 식별 불가한 형태)"
+        },
+        {
+          "heading": "3. 보유 및 이용 기간",
+          "body": "- 회원 정보: 회원 탈퇴 시까지 보관 후 즉시 파기. 단 관련 법령에 따라 일정 기간 보존이 의무화된 경우 해당 기간\n- 게시물: 회원 탈퇴 또는 이용자의 삭제 요청 시까지\n- 계정 정지 후 미해제 시: 정지일로부터 30일 경과 시 게시물·프로필 정보 자동 파기(이의 신청 기간 고려)\n- 접속 기록(로그): 「통신비밀보호법」에 따라 3개월\n- 부정 이용 기록: 부정 이용 방지 목적으로 최대 1년"
+        },
+        {
+          "heading": "4. 제3자 제공",
+          "body": "서비스는 이용자의 개인정보를 원칙적으로 외부에 제공하지 않습니다. 다만 다음의 경우는 예외로 합니다.\n- 이용자가 사전에 동의한 경우\n- 법령의 규정 또는 수사 목적으로 관계 기관의 정식 요청이 있는 경우"
+        },
+        {
+          "heading": "5. 처리 위탁",
+          "body": "서비스는 원활한 서비스 제공을 위해 아래 업체에 개인정보 처리 업무 일부를 위탁하고 있습니다.\n\n**이메일 발송 (회원가입 인증, 비밀번호 재설정)**\n- 수탁자: Resend Inc.\n- 위탁 항목: 이메일 주소\n- 위탁 목적: 인증번호·임시 비밀번호 메일 발송\n\n**광고 게재**\n- 수탁자: Google LLC (Google AdSense)\n- 위탁 항목: 쿠키, IP 주소, 광고 식별자, 서비스 이용 기록\n- 위탁 목적: 맞춤형 광고 게재 및 통계\n- 상세 정책: https://policies.google.com/technologies/ads"
+        },
+        {
+          "heading": "6. 쿠키(Cookie) 수집",
+          "body": "서비스는 아래 목적으로 쿠키를 사용합니다.\n- 로그인 세션 유지\n- 언어·테마 설정 저장\n- Google AdSense를 통한 광고 개인화\n\n이용자는 브라우저 설정에서 쿠키 저장을 거부하거나 삭제할 수 있으며, 이 경우 일부 기능 이용에 제한이 있을 수 있습니다. Google의 광고 쿠키는 https://adssettings.google.com 에서 개별 관리할 수 있습니다."
+        },
+        {
+          "heading": "7. 이용자의 권리와 행사 방법",
+          "body": "이용자는 언제든지 다음 권리를 행사할 수 있습니다.\n- 개인정보 열람: 프로필 페이지에서 가입 정보 확인\n- 개인정보 정정: 프로필 편집 기능\n- 개인정보 삭제: 회원 탈퇴 기능(프로필 페이지)\n- 처리 정지 요청: 서비스 내 \"문의하기\"를 통해 접수\n\n법정대리인이 만 14세 미만 아동의 개인정보 열람·정정·삭제를 요구하는 경우에도 동일한 방식으로 지원합니다."
+        },
+        {
+          "heading": "8. 개인정보의 안전성 확보 조치",
+          "body": "- 비밀번호는 bcrypt 해시로 암호화하여 저장하며, 원본 복원이 불가능합니다.\n- 서비스 통신은 HTTPS로 암호화됩니다.\n- 관리자 권한은 최소 인원에 한해 부여되며, 접근 기록을 관리합니다.\n- 정기적인 데이터 백업과 접근 제어를 수행합니다."
+        },
+        {
+          "heading": "9. 개인정보의 파기 절차 및 방법",
+          "body": "- 회원 탈퇴 시 개인 식별 정보(이메일·닉네임)는 즉시 익명화되어 재가입 충돌을 방지하는 형태로만 남고, 아바타·프로필·작성 글은 파기됩니다.\n- 전자적 파일은 복구 불가한 방법으로 삭제하고, 출력물이 있는 경우 분쇄 또는 소각합니다."
+        },
+        {
+          "heading": "10. 개인정보 보호책임자",
+          "body": "서비스의 개인정보 처리에 관한 문의는 아래 담당자에게 접수됩니다.\n- 이름: PanZone 관리자\n- 접수 방법: 서비스 내 \"문의하기\" 기능"
+        },
+        {
+          "heading": "11. 권익 침해 구제 방법",
+          "body": "개인정보 침해로 인한 상담·신고가 필요한 경우 아래 기관에 문의하실 수 있습니다.\n- 개인정보분쟁조정위원회 (kopico.go.kr / 1833-6972)\n- 개인정보보호위원회 (privacy.go.kr / 국번 없이 1833-6972)\n- 대검찰청 사이버수사과 (spo.go.kr / 국번 없이 1301)\n- 경찰청 사이버수사국 (ecrm.cyber.go.kr / 국번 없이 182)"
+        },
+        {
+          "heading": "12. 개인정보처리방침의 변경",
+          "body": "본 방침은 법령·정책·보안 기술 변경에 따라 수정될 수 있으며, 변경 시 서비스 내 공지사항으로 사전 안내합니다. 중대한 변경의 경우 개별 알림을 통해 고지합니다."
+        }
+      ]
+    }
+  },
+  "login": {
+    "login": "로그인",
+    "title": "로그인",
+    "id": "아이디",
+    "idPlaceholder": "이메일을 입력해주세요",
+    "password": "비밀번호",
+    "rememberMe": "자동 로그인",
+    "signup": "회원가입",
+    "forgot": "비밀번호 찾기",
+    "submitting": "로그인 중...",
+    "success": "로그인되었습니다",
+    "failed": "로그인에 실패했습니다",
+    "profile": "프로필",
+    "admin": "관리자",
+    "logout": "로그아웃",
+    "loggedOut": "로그아웃되었습니다"
+  },
+  "profile": {
+    "notFound": "존재하지 않는 사용자입니다",
+    "joinedAt": "가입 {0}",
+    "posts": "작성한 글",
+    "commentCount": "작성한 댓글",
+    "visitCount": "접속일 수",
+    "lastVisit": "최근 접속",
+    "edit": "프로필 편집",
+    "editSaved": "프로필이 저장되었습니다",
+    "logoutConfirm": "정말 로그아웃 하시겠습니까?",
+    "uploadAvatar": "이미지 업로드",
+    "resetAvatar": "기본 이미지",
+    "uploading": "업로드 중...",
+    "saving": "저장 중...",
+    "tagline": "한줄 소개",
+    "taglinePlaceholder": "한줄 소개 (선택, 최대 20자)",
+    "nickname": "닉네임",
+    "password": "비밀번호 변경",
+    "passwordToggleOpen": "비밀번호 변경하기",
+    "passwordToggleClose": "비밀번호 변경 취소",
+    "currentPassword": "현재 비밀번호",
+    "newPassword": "새 비밀번호",
+    "confirmPassword": "새 비밀번호 확인",
+    "passwordHint": "영문+숫자+특수문자 포함 8~12자",
+    "passwordMismatch": "비밀번호가 일치하지 않습니다",
+    "passwordInvalid": "영문+숫자+특수문자 포함 8~12자",
+    "nicknameInvalid": "한글/영문/숫자 2~8자",
+    "nicknameTaken": "이미 사용 중인 닉네임입니다",
+    "nicknameBlocked": "사용할 수 없는 닉네임입니다",
+    "nicknameAvailable": "사용 가능한 닉네임입니다",
+    "nicknameChecking": "확인 중...",
+    "unsavedChanges": "저장되지 않은 변경사항이 있습니다. 닫으시겠습니까?",
+    "deleteAccount": "회원 탈퇴",
+    "deleteAccountTitle": "회원 탈퇴",
+    "deleteAccountWarningPre": "탈퇴하시면 작성하신 ",
+    "deleteAccountWarningStrong": "모든 글과 댓글이 삭제",
+    "deleteAccountWarningPost": "되며 복구할 수 없습니다. 계속하시려면 현재 비밀번호를 입력해 주세요.",
+    "deleteAccountSubmit": "탈퇴하기",
+    "deleteAccountSubmitting": "처리 중…",
+    "deleteAccountDone": "탈퇴 처리가 완료되었습니다",
+    "cancel": "취소",
+    "suspendedBannerTitle": "계정이 정지되었습니다",
+    "suspendedAccount": "정지된 계정",
+    "dataPurged": "데이터 삭제됨",
+    "dataRetentionCountdown": "데이터 보존 D-{0}",
+    "suspendHint": "문의하기를 통해 해제 요청이 가능합니다.",
+    "purgeCountdownPre": "계정 영구 삭제까지",
+    "purgeCountdownValue": "D-{0}",
+    "inquiryButton": "문의하기",
+    "appealTitle": "정지 해제 문의",
+    "appealReasonLabel": "정지 사유: {0}",
+    "appealSubtitle": "관리자에게 상황을 설명해주세요. 이미지는 2장까지 첨부 가능합니다."
+  },
+  "inquiry": {
+    "title": "문의하기",
+    "subtitle": "궁금하신 점이나 개선 의견을 남겨주세요. 답변은 프로필 알림으로 도착합니다.",
+    "messageLabel": "문의 내용",
+    "messagePlaceholder": "상황을 자세히 설명해주세요",
+    "imagesLabel": "이미지 첨부",
+    "submit": "문의 보내기",
+    "done": "문의가 접수되었습니다"
+  },
+  "passwordInput": {
+    "show": "비밀번호 보기",
+    "hide": "비밀번호 숨기기"
+  },
+  "notification": {
+    "goToPage": "알림 페이지로 이동",
+    "deleteTitle": "알림 삭제",
+    "bulkDeleteConfirm": "선택한 {0}개 알림을 삭제합니다. 되돌릴 수 없어요.",
+    "delete": "삭제",
+    "label": "알림",
+    "unreadCount": "알림 {0}개",
+    "markAllRead": "모두 읽음",
+    "empty": "받은 알림이 없습니다",
+    "justNow": "방금",
+    "minsAgo": "{0}분 전",
+    "hoursAgo": "{0}시간 전",
+    "daysAgo": "{0}일 전"
+  },
+  "tier": {
+    "tier0": "신규",
+    "tier1": "브론즈",
+    "tier2": "실버",
+    "tier3": "골드",
+    "tier4": "관리자"
+  },
+  "forgot": {
+    "title": "비밀번호 찾기",
+    "email": "이메일",
+    "emailPlaceholder": "가입한 이메일을 입력해주세요",
+    "emailInvalid": "이메일 양식에 맞게 작성해주세요",
+    "submit": "인증 메일 받기",
+    "sending": "전송 중...",
+    "sent": "임시 비밀번호가 이메일로 전송되었습니다",
+    "backToLogin": "로그인으로 돌아가기"
+  },
+  "signup": {
+    "title": "회원가입",
+    "nickname": "닉네임",
+    "nicknamePlaceholder": "닉네임을 입력해주세요",
+    "nicknameHint": "2~8자, 한글·영문·숫자만 사용 가능",
+    "nicknameInvalid": "닉네임은 2~8자, 한글·영문·숫자만 사용 가능합니다",
+    "nicknameCheck": "중복 확인",
+    "nicknameChecking": "확인 중...",
+    "nicknameAvailable": "사용 가능한 닉네임입니다",
+    "nicknameTaken": "이미 사용 중인 닉네임입니다",
+    "nicknameBlocked": "사용할 수 없는 닉네임입니다",
+    "nicknameCheckRequired": "닉네임 중복 확인이 필요합니다",
+    "email": "이메일",
+    "emailPlaceholder": "이메일을 입력해주세요",
+    "emailInvalid": "이메일 양식에 맞게 작성해주세요",
+    "sendCode": "인증번호 받기",
+    "resendCode": "재전송",
+    "code": "인증번호",
+    "codePlaceholder": "6자리 인증번호 입력",
+    "password": "비밀번호",
+    "pwHint": "숫자, 영문, 특수기호 포함 8자 이상 12자 이하",
+    "passwordConfirm": "비밀번호 확인",
+    "pwMismatch": "비밀번호가 일치하지 않습니다",
+    "submit": "가입하기",
+    "sending": "전송 중...",
+    "submitting": "가입 중...",
+    "codeSent": "인증번호가 전송되었습니다",
+    "success": "회원가입이 완료되었습니다",
+    "agreeRequired": "(필수)",
+    "agreeTerms": "이용약관에 동의합니다",
+    "agreePrivacy": "개인정보처리방침에 동의합니다",
+    "agreeView": "보기",
+    "agreeAllRequired": "필수 약관에 모두 동의해주세요"
+  },
+  "search": {
+    "placeholder": "커뮤니티 검색...",
+    "tabs": {
+      "all": "종합",
+      "users": "유저",
+      "titlesOnly": "제목",
+      "contentOnly": "내용",
+      "titlesContent": "제목 + 내용"
+    },
+    "viewAll": "검색 결과 전체 보기",
+    "noSuggestions": "검색 결과가 없습니다",
+    "recentSearches": "최근 검색어",
+    "clear": "전체 삭제",
+    "noRecent": "최근 검색어가 없습니다"
+  },
+  "stats": {
+    "title": "전적 검색",
+    "inputPlaceholder": "플레이어 닉네임 입력...",
+    "searchBtn": "검색",
+    "back": "뒤로",
+    "tabs": {
+      "history": "검색 기록",
+      "favorites": "즐겨찾기"
+    },
+    "clearAll": "전체 삭제",
+    "emptyHistory": "검색 기록이 없습니다",
+    "emptyFavorites": "즐겨찾기가 없습니다",
+    "noData": "해당 플레이어의 전적 데이터가 없습니다",
+    "loading": "플레이어 데이터 로딩 중...",
+    "loadingMatches": "매치 기록 로딩 중...",
+    "playerNotFound": "\"{0}\" 유저를 찾을 수 없습니다",
+    "copied": "복사 완료되었습니다",
+    "lastUpdated": "최근 업데이트",
+    "addFavorite": "즐겨찾기 추가",
+    "removeFavorite": "즐겨찾기 해제",
+    "perspective": {
+      "fpp": "1인칭",
+      "tpp": "3인칭"
+    },
+    "season": "시즌",
+    "category": {
+      "rankedOverall": "경쟁전 종합",
+      "rankedByMode": "경쟁전 모드별",
+      "overallAll": "일반 종합",
+      "allByMode": "일반 모드별"
+    },
+    "mode": {
+      "solo": "솔로",
+      "duo": "듀오",
+      "squad": "스쿼드"
+    },
+    "recent": {
+      "title": "최근 20게임 평균",
+      "avgRank": "평균 등수",
+      "rankHistory": "등수 이력"
+    },
+    "detailTabs": {
+      "allOverall": "일반 전체",
+      "allSolo": "일반 솔로",
+      "allDuo": "일반 듀오",
+      "allSquad": "일반 스쿼드",
+      "rankedOverall": "경쟁전 전체",
+      "rankedSolo": "경쟁전 솔로",
+      "rankedDuo": "경쟁전 듀오",
+      "rankedSquad": "경쟁전 스쿼드"
+    },
+    "fields": {
+      "kills": "킬",
+      "matches": "경기",
+      "wins": "치킨",
+      "kd": "킬/데스",
+      "kda": "KDA",
+      "damagePerMatch": "경기당 데미지",
+      "winRate": "승률",
+      "top10Rate": "Top 10 비율",
+      "longestKill": "최장 킬 거리",
+      "avgSurvivalTime": "평균 생존시간",
+      "headshotRate": "헤드샷 비율",
+      "avgRank": "평균 등수",
+      "avgKills": "평균 킬",
+      "avgAssists": "평균 어시스트"
+    },
+    "match": {
+      "damage": "데미지",
+      "distance": "이동거리",
+      "loadMore": "더보기"
+    },
+    "dropdown": {
+      "ranking": "전체 순위",
+      "teamStats": "팀 스탯",
+      "summary": "종합",
+      "rank": "#",
+      "members": "닉네임",
+      "rating": "레이팅",
+      "assists": "어시스트",
+      "knocks": "기절시킴",
+      "survTime": "생존시간",
+      "total": "전체",
+      "combat": "전투",
+      "headshots": "헤드샷",
+      "movement": "이동",
+      "walkDist": "걸은 거리",
+      "rideDist": "탑승 거리",
+      "survival": "생존",
+      "healsBoosts": "치유 / 부스트",
+      "revives": "부활 시킨 횟수",
+      "avgRating": "팀 평균 레이팅",
+      "totalKills": "총 킬",
+      "totalDamage": "총 데미지"
+    },
+    "maps": {
+      "Baltic_Main": "에란겔",
+      "Chimera_Main": "파라모",
+      "Desert_Main": "미라마",
+      "DihorOtok_Main": "비켄디",
+      "Erangel_Main": "에란겔",
+      "Heaven_Main": "헤이븐",
+      "Kiki_Main": "데스턴",
+      "Range_Main": "캠프 자칼",
+      "Savage_Main": "사녹",
+      "Summerland_Main": "카라킨",
+      "Tiger_Main": "태이고",
+      "Neon_Main": "론도"
+    },
+    "units": {
+      "percent": "%",
+      "meters": "m",
+      "minutes": "분"
+    }
+  },
+  "communityResults": {
+    "title": "검색 결과:",
+    "noResults": "검색 결과가 없습니다:"
+  },
+  "community": {
+    "board": {
+      "notice": "공지사항",
+      "patch": "패치노트",
+      "event": "이벤트 게시판",
+      "free": "자유 게시판",
+      "qa": "Q&A 게시판",
+      "pride": "자랑 게시판",
+      "streamer": "스트리머 게시판",
+      "esports": "e스포츠 게시판",
+      "review": "구매 후기",
+      "setting": "세팅 게시판",
+      "report": "제보 게시판",
+      "discord": "디스코드 홍보",
+      "loot": "확률형 아이템"
+    },
+    "boardShort": {
+      "notice": "공지사항",
+      "patch": "패치노트",
+      "event": "이벤트 게시판",
+      "free": "자유 게시판",
+      "qa": "Q&A 게시판",
+      "pride": "자랑 게시판",
+      "streamer": "스트리머 게시판",
+      "esports": "e스포츠 게시판",
+      "review": "구매 후기",
+      "setting": "세팅 게시판",
+      "report": "제보 게시판",
+      "discord": "디스코드 홍보",
+      "loot": "확률형 아이템"
+    },
+    "sidebar": {
+      "home": "홈",
+      "hot": "Hot 게시판"
+    },
+    "updateSchedule": {
+      "patch": "매주 화요일 18시에 업데이트 됩니다",
+      "event": "매일 오전 9시에 업데이트 됩니다",
+      "loot": "매주 수요일 11시 20분에 업데이트 됩니다"
+    },
+    "hot": {
+      "today": "오늘",
+      "week": "이번 주"
+    },
+    "view": {
+      "list": "리스트형",
+      "card": "카드형"
+    },
+    "col": {
+      "likes": "추천",
+      "board": "게시판",
+      "type": "유형",
+      "title": "제목",
+      "author": "작성자",
+      "date": "작성일",
+      "views": "조회수",
+      "comments": "댓글"
+    },
+    "type": {
+      "notice": "공지",
+      "normal": "일반"
+    },
+    "writeButton": "글쓰기",
+    "action": {
+      "edit": "수정하기",
+      "delete": "삭제하기",
+      "reply": "답글쓰기",
+      "report": "신고",
+      "submit": "등록",
+      "writeComment": "댓글쓰기",
+      "cancel": "취소",
+      "confirm": "확인",
+      "attachImage": "이미지 첨부",
+      "share": "공유하기"
+    },
+    "shareCopied": "URL이 복사되었습니다",
+    "shareFailed": "URL 복사에 실패했습니다",
+    "comments": "댓글",
+    "commentPlaceholder": "댓글을 입력하세요",
+    "replyPlaceholder": "답글을 입력하세요",
+    "report": {
+      "title": "신고하기",
+      "reasonPrompt": "신고 사유를 입력해주세요",
+      "selectReason": "신고 사유를 선택해주세요",
+      "detailsLabel": "추가 설명",
+      "detailsOptional": "선택",
+      "detailsRequired": "필수",
+      "detailsPlaceholder": "상세한 내용이 있다면 입력해주세요",
+      "imagesLabel": "이미지 첨부",
+      "submit": "신고",
+      "done": "신고가 접수되었습니다",
+      "reasons": {
+        "spam": "스팸 · 광고",
+        "abuse": "욕설 · 혐오 발언",
+        "adult": "음란물 · 선정성",
+        "privacy": "개인정보 노출",
+        "fake": "사칭 · 사기",
+        "inappropriate": "부적절한 내용",
+        "other": "기타"
+      }
+    },
+    "edited": "수정됨",
+    "deletedComment": "지워진 댓글입니다",
+    "suspendedComment": "유효하지 않은 사용자입니다",
+    "poll": {
+      "totalVotes": "총 {n}명 참여"
+    },
+    "write": {
+      "titlePlaceholder": "제목을 입력해주세요",
+      "bodyPlaceholder": "내용을 입력하세요.",
+      "cancelEditConfirm": "수정한 내용이 저장되지 않았습니다. 편집을 취소하시겠습니까?",
+      "linkPrompt": "링크 URL을 입력하세요",
+      "linkTextPrompt": "표시할 텍스트를 입력하세요",
+      "tableRows": "행 개수",
+      "tableCols": "열 개수",
+      "tableMaxRows": "최대 {0}행",
+      "tableMaxCols": "최대 {0}열",
+      "pollQuestionPlaceholder": "투표 질문을 입력하세요",
+      "pollOptionPlaceholder": "선택지 {n}",
+      "pollAddOption": "항목 추가",
+      "tool": {
+        "photo": "사진",
+        "video": "동영상",
+        "hr": "구분선",
+        "file": "파일",
+        "link": "링크",
+        "table": "표",
+        "poll": "투표"
+      },
+      "para": {
+        "body": "본문",
+        "h1": "제목 1",
+        "h2": "제목 2",
+        "h3": "제목 3"
+      },
+      "font": {
+        "default": "기본서체",
+        "serif": "명조",
+        "mono": "고정폭"
+      },
+      "bold": "굵게",
+      "italic": "기울임",
+      "underline": "밑줄",
+      "strike": "취소선",
+      "fontColor": "글자 색",
+      "bgColor": "배경 색",
+      "highlight": "하이라이트",
+      "alignLeft": "왼쪽 정렬",
+      "alignCenter": "가운데 정렬",
+      "alignRight": "오른쪽 정렬"
+    }
+  }
+}

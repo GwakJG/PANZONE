@@ -1,0 +1,612 @@
+{
+  "errors": {
+    "unknown": "Request failed",
+    "network": "Network error",
+    "internal": "A temporary error occurred",
+    "invalidEmail": "Invalid email format",
+    "emailAlreadyRegistered": "This email is already registered",
+    "emailNotRegistered": "This email is not registered",
+    "invalidCode": "Invalid verification code",
+    "codeRequired": "Please enter the verification code",
+    "codeExpired": "Verification code has expired",
+    "invalidPassword": "Invalid password format",
+    "invalidCredentials": "Incorrect email or password",
+    "credentialsRequired": "Please enter email and password",
+    "invalidNickname": "Invalid nickname",
+    "nicknameTaken": "This nickname is already taken",
+    "userNotFound": "User not found",
+    "forbidden": "Permission denied",
+    "postNotFound": "Post not found",
+    "commentNotFound": "Comment not found",
+    "boardNotFound": "Board not found",
+    "boardReadOnly": "This board is read-only",
+    "titleRequired": "Please enter a title",
+    "titleTooLong": "Title is too long",
+    "bodyRequired": "Please enter content",
+    "bodyTooLong": "Content is too long",
+    "imageOnly": "Only image files are allowed",
+    "imageFormat": "Unsupported image format",
+    "fileTooLarge": "File is too large",
+    "noFile": "No file selected",
+    "onlyOneLevelReplies": "Only one-level replies are allowed",
+    "alreadyReported": "Already reported",
+    "reasonRequired": "Reason is required"
+  },
+  "common": {
+    "loginRequired": "Please log in to use this feature",
+    "loginRequiredTitle": "Login required",
+    "loginRequiredMessage": "You need to log in to use this feature.",
+    "goToLogin": "Go to login",
+    "loading": "Loading...",
+    "loadError": "Failed to load",
+    "empty": "No posts yet",
+    "deleteConfirm": "Are you sure you want to delete?",
+    "saveError": "Failed to save",
+    "deleteError": "Failed to delete"
+  },
+  "header": {
+    "community": "Community",
+    "statsTracker": "Stats Tracker"
+  },
+  "footer": {
+    "tagline": "PUBG Battlegrounds Community",
+    "terms": "Terms",
+    "privacy": "Privacy Policy",
+    "contact": "Contact",
+    "disclaimer": "PanZone is an unofficial fan community and is not affiliated with KRAFTON or PUBG STUDIOS."
+  },
+  "legal": {
+    "terms": {
+      "title": "Terms of Service",
+      "effective": "Effective: April 24, 2026",
+      "preamble": "These Terms of Service (\"Terms\") govern the rights, obligations, and responsibilities between members and the operator of PanZone (the \"Service\"). By agreeing to these Terms, you enter into a service agreement with the operator.",
+      "sections": [
+        {
+          "heading": "1. Purpose",
+          "body": "These Terms set forth the conditions and procedures for using features the operator provides — PUBG stats lookup, community boards, notifications, and related functionality — and the rights, obligations, and responsibilities of both parties."
+        },
+        {
+          "heading": "2. Definitions",
+          "body": "- \"Service\" refers to all features operated under PanZone, including stats lookup, community boards, notifications, and ancillary features.\n- \"Member\" refers to any person who accepts these Terms, completes email verification, and registers an account.\n- \"Content\" refers to any posts, comments, images, polls, or other material submitted by a Member to the Service.\n- \"Operator\" refers to the individual who operates and administers the Service."
+        },
+        {
+          "heading": "3. Effect and Changes to the Terms",
+          "body": "1. These Terms take effect once a Member agrees to them and begins using the Service.\n2. The Operator may modify these Terms when required by changes in law, service policy, or operations.\n3. Any changes will be announced within the Service at least 7 days in advance (or 30 days in advance for changes adverse to Members).\n4. If a Member does not agree to the revised Terms, they may discontinue use by deleting their account."
+        },
+        {
+          "heading": "4. Registration and Account Management",
+          "body": "1. This Service is open only to users aged 14 or older. Registration by users under 14 is restricted pursuant to Article 22-2 of Korea's Personal Information Protection Act.\n2. Registration requires verification of an email address owned by the Member.\n3. Creating multiple accounts per person is prohibited.\n4. Members are responsible for safeguarding their account credentials. The Operator is not liable for loss resulting from negligent credential management.\n5. Nicknames that imply an official affiliation (e.g., trademark names or staff impersonation) are blocked at registration."
+        },
+        {
+          "heading": "5. Member Obligations and Prohibited Conduct",
+          "body": "Members shall comply with applicable laws and these Terms, and shall not engage in any of the following:\n- Impersonating another person or misusing another's credentials\n- Spamming or repeatedly posting identical/near-identical content\n- Posting unauthorized advertising or promotional content\n- Using abusive, hateful, discriminatory, or harassing language\n- Posting adult, sexual, illegal, or violent content\n- Infringing third-party copyright, image rights, or privacy\n- Interfering with Service operation (hacking, scraping, abnormal access)\n- Any other act that violates laws or public order and morals"
+        },
+        {
+          "heading": "6. Copyright and Usage License for Content",
+          "body": "1. Copyright in Content remains with the Member who created it.\n2. Members grant the Operator a non-exclusive, royalty-free license to use their Content for the following purposes:\n- Displaying and transmitting Content within the Service\n- Limited exposure for Service promotion\n- Retention and backup as required by law\n3. This license terminates when the Member deletes the Content or their account. Portions may remain if quoted in other Members' Content.\n4. Members are solely responsible for any copyright infringement in their Content."
+        },
+        {
+          "heading": "7. Reporting and Use Restrictions",
+          "body": "1. Members may use the \"Report\" feature to flag inappropriate Content to the Operator.\n2. The Operator may take the following actions against Members who violate these Terms or materially disrupt the Service:\n- Delete or blind affected Content\n- Issue a warning\n- Temporarily or permanently suspend the account\n3. Suspended Members may file an appeal under Section 8."
+        },
+        {
+          "heading": "8. Appeals and Account Recovery",
+          "body": "1. Members may dispute any action taken against them via the \"Inquiry\" feature on their profile page.\n2. The Operator will review appeals in good faith and respond with the outcome.\n3. If a suspension is not lifted within 30 days, the Member's Content and profile data are automatically deleted and cannot be recovered.\n4. Re-registration with the same email or nickname is subject to the Operator's discretion."
+        },
+        {
+          "heading": "9. Account Deletion",
+          "body": "1. Members may delete their account at any time from the profile page.\n2. Upon deletion, the Member's posts and comments are removed and personally identifying information is destroyed.\n3. For the integrity of other Members' discussions, deleted comments may remain visible as \"deleted comment\" placeholders preserving thread structure."
+        },
+        {
+          "heading": "10. Service Changes and Suspension",
+          "body": "1. The Operator may temporarily suspend parts of or all of the Service due to maintenance, incident recovery, force majeure, or other unavoidable reasons.\n2. The Operator may discontinue the entire Service for reasonable cause, with at least 30 days' advance notice."
+        },
+        {
+          "heading": "11. Disclaimer of Liability",
+          "body": "1. The Service is a non-commercial, unofficial fan community. The Operator is not responsible for transactions between Members, disputes between Members, or the accuracy of Content.\n2. The Operator is not liable for service interruptions or data loss caused by force majeure, server failure, hacking, or other events outside the Operator's control.\n3. The Service is not officially affiliated with KRAFTON, PUBG STUDIOS, or their subsidiaries. All trademarks such as PUBG and BATTLEGROUNDS are property of their respective owners and are used here only within the scope of nominative fair use.\n4. The Operator is not responsible for the content of external links or third-party services (e.g., advertising networks, email providers)."
+        },
+        {
+          "heading": "12. Advertising",
+          "body": "The Service may display advertisements through third-party ad networks such as Google AdSense to cover operating costs. Handling of personal data in connection with ads is governed by the Privacy Policy and the respective ad network's policies."
+        },
+        {
+          "heading": "13. Governing Law and Jurisdiction",
+          "body": "1. These Terms and any dispute arising from use of the Service shall be governed by the laws of the Republic of Korea.\n2. Any dispute shall be brought before the competent court under the Korean Civil Procedure Act."
+        },
+        {
+          "heading": "14. Contact",
+          "body": "For questions, reports, or appeals, please use the \"Inquiry\" feature within the Service."
+        }
+      ]
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "effective": "Effective: April 24, 2026",
+      "preamble": "PanZone (the \"Service\") complies with applicable laws including Korea's Personal Information Protection Act and makes every effort to protect user privacy. This policy explains how the Service collects, uses, retains, and deletes personal information.",
+      "sections": [
+        {
+          "heading": "1. Information We Collect",
+          "body": "**Required**\n- Email address\n- Nickname\n- Password (stored as a bcrypt hash; original cannot be recovered)\n\n**Optional**\n- Profile image\n- Short bio\n\n**Automatically Collected**\n- IP address, access timestamps\n- Cookies (session, language preference)\n- Browser and OS info\n\n**Provided by the User**\n- Posts, comments, uploaded images, poll responses\n- Content and attachments submitted via reports or inquiries"
+        },
+        {
+          "heading": "2. Purposes of Collection and Use",
+          "body": "- Account creation and identity verification\n- Providing the Service (posting, commenting, notifications, etc.)\n- Preventing abuse (multiple accounts, impersonation, spam)\n- Enforcement of usage rules and processing appeals\n- Aggregate analytics for service improvement (non-identifying)"
+        },
+        {
+          "heading": "3. Retention Period",
+          "body": "- Account info: retained until account deletion and then destroyed, except where retention is mandated by law\n- Content: retained until account deletion or user-initiated deletion\n- If an account is suspended and not reinstated within 30 days, associated Content and profile data are automatically destroyed (taking into account the appeal window)\n- Access logs: 3 months under Korea's Protection of Communications Secrets Act\n- Abuse records: up to 1 year for abuse-prevention purposes"
+        },
+        {
+          "heading": "4. Disclosure to Third Parties",
+          "body": "The Service does not disclose personal information to external parties, except:\n- With the user's prior consent\n- Pursuant to law or a formal request from an authorized agency for investigative purposes"
+        },
+        {
+          "heading": "5. Processors (External Services)",
+          "body": "The Service entrusts portions of personal-data processing to the following parties to operate effectively.\n\n**Email delivery (signup verification, password reset)**\n- Processor: Resend Inc.\n- Data: email address\n- Purpose: sending verification codes and temporary passwords\n\n**Advertising**\n- Processor: Google LLC (Google AdSense)\n- Data: cookies, IP address, advertising identifiers, service usage records\n- Purpose: serving and measuring personalized advertising\n- Policy: https://policies.google.com/technologies/ads"
+        },
+        {
+          "heading": "6. Cookies",
+          "body": "The Service uses cookies for:\n- Maintaining login sessions\n- Storing language and theme preferences\n- Personalizing advertising via Google AdSense\n\nYou can refuse or delete cookies in your browser settings, though some features may not work. Google ad cookies can be managed individually at https://adssettings.google.com."
+        },
+        {
+          "heading": "7. Your Rights",
+          "body": "You may exercise the following rights at any time:\n- Access: view your account information on your profile page\n- Correction: use the profile editor\n- Deletion: use the account-deletion feature on your profile page\n- Processing halt: submit a request via the \"Inquiry\" feature\n\nLegal guardians acting for users under 14 may exercise these rights on the user's behalf through the same channels."
+        },
+        {
+          "heading": "8. Security Measures",
+          "body": "- Passwords are stored as bcrypt hashes and cannot be decrypted.\n- Traffic is encrypted with HTTPS.\n- Administrative access is granted only to the minimum number of personnel, and access events are logged.\n- Regular backups and access controls are in place."
+        },
+        {
+          "heading": "9. Deletion Procedure",
+          "body": "- Upon account deletion, identifying fields (email, nickname) are immediately anonymized to prevent re-registration conflicts, and profile images, bios, and posts are destroyed.\n- Electronic records are deleted in a manner that prevents recovery. Any physical printouts are shredded or incinerated."
+        },
+        {
+          "heading": "10. Data Protection Officer",
+          "body": "Inquiries regarding personal-information handling are received by the following representative.\n- Name: PanZone Administrator\n- How to reach: \"Inquiry\" feature within the Service"
+        },
+        {
+          "heading": "11. Remedies",
+          "body": "For consultation or reporting of privacy violations, you may contact:\n- Personal Information Dispute Mediation Committee (kopico.go.kr / +82-1833-6972)\n- Personal Information Protection Commission (privacy.go.kr / 1833-6972)\n- Supreme Prosecutors' Office Cybercrime Investigation (spo.go.kr / 1301)\n- Korean National Police Cyber Bureau (ecrm.cyber.go.kr / 182)"
+        },
+        {
+          "heading": "12. Changes to This Policy",
+          "body": "This policy may be updated to reflect changes in law, service policy, or security practices. Updates will be announced within the Service in advance. Material changes will also be communicated via direct notification."
+        }
+      ]
+    }
+  },
+  "login": {
+    "login": "Login",
+    "title": "Login",
+    "id": "ID",
+    "idPlaceholder": "Enter your email",
+    "password": "Password",
+    "rememberMe": "Keep me signed in",
+    "signup": "Sign up",
+    "forgot": "Forgot password",
+    "submitting": "Logging in...",
+    "success": "Logged in",
+    "failed": "Login failed",
+    "profile": "Profile",
+    "admin": "Admin",
+    "logout": "Log out",
+    "loggedOut": "Logged out"
+  },
+  "profile": {
+    "notFound": "User not found",
+    "joinedAt": "Joined {0}",
+    "posts": "Posts",
+    "commentCount": "Comments",
+    "visitCount": "Visits",
+    "lastVisit": "Last visit",
+    "edit": "Edit profile",
+    "editSaved": "Profile saved",
+    "logoutConfirm": "Are you sure you want to log out?",
+    "uploadAvatar": "Upload image",
+    "resetAvatar": "Default image",
+    "uploading": "Uploading...",
+    "saving": "Saving...",
+    "tagline": "Tagline",
+    "taglinePlaceholder": "Tagline (optional, max 20 chars)",
+    "nickname": "Nickname",
+    "password": "Change password",
+    "passwordToggleOpen": "Change password",
+    "passwordToggleClose": "Cancel password change",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "passwordHint": "8-12 chars with letter + number + symbol",
+    "passwordMismatch": "Passwords don't match",
+    "passwordInvalid": "8-12 chars with letter + number + symbol",
+    "nicknameInvalid": "2-8 chars (KR/EN/digits)",
+    "nicknameTaken": "Nickname already taken",
+    "nicknameBlocked": "This nickname is not allowed",
+    "nicknameAvailable": "Available",
+    "nicknameChecking": "Checking...",
+    "unsavedChanges": "You have unsaved changes. Close anyway?",
+    "deleteAccount": "Delete account",
+    "deleteAccountTitle": "Delete account",
+    "deleteAccountWarningPre": "If you delete your account, ",
+    "deleteAccountWarningStrong": "all your posts and comments will be removed",
+    "deleteAccountWarningPost": " and cannot be recovered. Enter your current password to proceed.",
+    "deleteAccountSubmit": "Delete account",
+    "deleteAccountSubmitting": "Processing…",
+    "deleteAccountDone": "Account deleted",
+    "cancel": "Cancel",
+    "suspendedBannerTitle": "Your account is suspended",
+    "suspendedAccount": "Suspended account",
+    "dataPurged": "Data deleted",
+    "dataRetentionCountdown": "Data retained D-{0}",
+    "suspendHint": "You can request a review via the inquiry form.",
+    "purgeCountdownPre": "Permanent deletion in",
+    "purgeCountdownValue": "D-{0}",
+    "inquiryButton": "Send inquiry",
+    "appealTitle": "Suspension appeal",
+    "appealReasonLabel": "Reason: {0}",
+    "appealSubtitle": "Please explain the situation to the operators. You can attach up to 2 images."
+  },
+  "inquiry": {
+    "title": "Send an inquiry",
+    "subtitle": "Share any questions or suggestions. Replies arrive in your profile notifications.",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Please describe the situation in detail",
+    "imagesLabel": "Attach images",
+    "submit": "Send inquiry",
+    "done": "Inquiry submitted"
+  },
+  "passwordInput": {
+    "show": "Show password",
+    "hide": "Hide password"
+  },
+  "notification": {
+    "goToPage": "Go to notifications",
+    "deleteTitle": "Delete notification",
+    "bulkDeleteConfirm": "Delete {0} selected notifications? This cannot be undone.",
+    "delete": "Delete",
+    "label": "Notifications",
+    "unreadCount": "{0} unread",
+    "markAllRead": "Mark all read",
+    "empty": "No notifications",
+    "justNow": "just now",
+    "minsAgo": "{0}m ago",
+    "hoursAgo": "{0}h ago",
+    "daysAgo": "{0}d ago"
+  },
+  "tier": {
+    "tier0": "Newbie",
+    "tier1": "Bronze",
+    "tier2": "Silver",
+    "tier3": "Gold",
+    "tier4": "Admin"
+  },
+  "forgot": {
+    "title": "Forgot Password",
+    "email": "Email",
+    "emailPlaceholder": "Enter your registered email",
+    "emailInvalid": "Please enter a valid email address",
+    "submit": "Send Reset Email",
+    "sending": "Sending...",
+    "sent": "A temporary password has been sent to your email",
+    "backToLogin": "Back to login"
+  },
+  "signup": {
+    "title": "Sign Up",
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "Enter a nickname",
+    "nicknameHint": "2-8 chars, letters/Korean/numbers only",
+    "nicknameInvalid": "Nickname must be 2-8 characters with no special symbols",
+    "nicknameCheck": "Check",
+    "nicknameChecking": "Checking...",
+    "nicknameAvailable": "This nickname is available",
+    "nicknameTaken": "This nickname is already taken",
+    "nicknameBlocked": "This nickname is not allowed",
+    "nicknameCheckRequired": "Please check nickname availability",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "emailInvalid": "Please enter a valid email address",
+    "sendCode": "Send Code",
+    "resendCode": "Resend",
+    "code": "Verification Code",
+    "codePlaceholder": "Enter 6-digit code",
+    "password": "Password",
+    "pwHint": "8-12 chars, include letter, number, and special character",
+    "passwordConfirm": "Confirm Password",
+    "pwMismatch": "Passwords do not match",
+    "submit": "Sign Up",
+    "sending": "Sending...",
+    "submitting": "Signing up...",
+    "codeSent": "Verification code sent",
+    "success": "Sign up complete",
+    "agreeRequired": "(required)",
+    "agreeTerms": "I agree to the Terms of Service",
+    "agreePrivacy": "I agree to the Privacy Policy",
+    "agreeView": "View",
+    "agreeAllRequired": "Please agree to all required terms"
+  },
+  "search": {
+    "placeholder": "Search community...",
+    "tabs": {
+      "all": "All",
+      "users": "Users",
+      "titlesOnly": "Titles Only",
+      "contentOnly": "Content Only",
+      "titlesContent": "Titles + Content"
+    },
+    "viewAll": "View all results",
+    "noSuggestions": "No results",
+    "recentSearches": "Recent Searches",
+    "clear": "Clear all",
+    "noRecent": "No recent searches"
+  },
+  "stats": {
+    "title": "Stats Tracker",
+    "inputPlaceholder": "Enter player nickname...",
+    "searchBtn": "Search",
+    "back": "Back",
+    "tabs": {
+      "history": "Search History",
+      "favorites": "Favorites"
+    },
+    "clearAll": "Clear All",
+    "emptyHistory": "No search history yet",
+    "emptyFavorites": "No favorites yet",
+    "noData": "No match data found for this player",
+    "loading": "Loading player data...",
+    "loadingMatches": "Loading match history...",
+    "playerNotFound": "Player \"{0}\" not found",
+    "copied": "Copied to clipboard",
+    "lastUpdated": "Last Updated",
+    "addFavorite": "Add to favorites",
+    "removeFavorite": "Remove from favorites",
+    "perspective": {
+      "fpp": "FPP",
+      "tpp": "TPP"
+    },
+    "season": "Season",
+    "category": {
+      "rankedOverall": "Overall Ranked Stats",
+      "rankedByMode": "Ranked by Mode",
+      "overallAll": "Normal Overall",
+      "allByMode": "Normal by Mode"
+    },
+    "mode": {
+      "solo": "Solo",
+      "duo": "Duo",
+      "squad": "Squad"
+    },
+    "recent": {
+      "title": "Last 20 Games Avg",
+      "avgRank": "Avg Rank",
+      "rankHistory": "Rank History"
+    },
+    "detailTabs": {
+      "allOverall": "Normal All",
+      "allSolo": "Normal Solo",
+      "allDuo": "Normal Duo",
+      "allSquad": "Normal Squad",
+      "rankedOverall": "Ranked",
+      "rankedSolo": "Ranked Solo",
+      "rankedDuo": "Ranked Duo",
+      "rankedSquad": "Ranked Squad"
+    },
+    "fields": {
+      "kills": "Kills",
+      "matches": "Matches",
+      "wins": "Wins",
+      "kd": "K/D",
+      "kda": "KDA",
+      "damagePerMatch": "Damage / Match",
+      "winRate": "Win Rate",
+      "top10Rate": "Top 10 Rate",
+      "longestKill": "Longest Kill",
+      "avgSurvivalTime": "Avg Survival",
+      "headshotRate": "Headshot Rate",
+      "avgRank": "Avg Rank",
+      "avgKills": "Avg Kills",
+      "avgAssists": "Avg Assists"
+    },
+    "match": {
+      "damage": "Damage",
+      "distance": "Distance",
+      "loadMore": "Load More"
+    },
+    "dropdown": {
+      "ranking": "Overall Ranking",
+      "teamStats": "Team Stats",
+      "summary": "Summary",
+      "rank": "#",
+      "members": "Players",
+      "rating": "Rating",
+      "assists": "Assists",
+      "knocks": "Knocks",
+      "survTime": "Surv. Time",
+      "total": "Total",
+      "combat": "Combat",
+      "headshots": "HS",
+      "movement": "Movement",
+      "walkDist": "Walk Dist.",
+      "rideDist": "Ride Dist.",
+      "survival": "Survival",
+      "healsBoosts": "Heals / Boosts",
+      "revives": "Revives",
+      "avgRating": "Avg Rating",
+      "totalKills": "Total Kills",
+      "totalDamage": "Total Damage"
+    },
+    "maps": {
+      "Baltic_Main": "Erangel",
+      "Chimera_Main": "Paramo",
+      "Desert_Main": "Miramar",
+      "DihorOtok_Main": "Vikendi",
+      "Erangel_Main": "Erangel",
+      "Heaven_Main": "Haven",
+      "Kiki_Main": "Deston",
+      "Range_Main": "Camp Jackal",
+      "Savage_Main": "Sanhok",
+      "Summerland_Main": "Karakin",
+      "Tiger_Main": "Taego",
+      "Neon_Main": "Rondo"
+    },
+    "units": {
+      "percent": "%",
+      "meters": "m",
+      "minutes": "min"
+    }
+  },
+  "communityResults": {
+    "title": "Search results for",
+    "noResults": "No results found for"
+  },
+  "community": {
+    "board": {
+      "notice": "Notice",
+      "patch": "Patch Notes",
+      "event": "Events",
+      "free": "Free Board",
+      "qa": "Q&A",
+      "pride": "Showcase",
+      "streamer": "Streamers",
+      "esports": "E-Sports",
+      "review": "Reviews",
+      "setting": "Settings",
+      "report": "Reports",
+      "discord": "Discord Servers",
+      "loot": "Loot Box Odds"
+    },
+    "boardShort": {
+      "notice": "Notice",
+      "patch": "Patch",
+      "event": "Events",
+      "free": "Free",
+      "qa": "Q&A",
+      "pride": "Showcase",
+      "streamer": "Streamer",
+      "esports": "eSports",
+      "review": "Reviews",
+      "setting": "Settings",
+      "report": "Reports",
+      "discord": "Discord",
+      "loot": "Loot"
+    },
+    "sidebar": {
+      "home": "Home",
+      "hot": "Hot"
+    },
+    "updateSchedule": {
+      "patch": "Updates every Tuesday at 18:00 KST",
+      "event": "Updates daily at 09:00 KST",
+      "loot": "Updates every Wednesday at 11:20 KST"
+    },
+    "hot": {
+      "today": "Today",
+      "week": "This week"
+    },
+    "view": {
+      "list": "List",
+      "card": "Card"
+    },
+    "col": {
+      "likes": "Likes",
+      "board": "Board",
+      "type": "Type",
+      "title": "Title",
+      "author": "Author",
+      "date": "Date",
+      "views": "Views",
+      "comments": "Comments"
+    },
+    "type": {
+      "notice": "Notice",
+      "normal": "Normal"
+    },
+    "writeButton": "Write",
+    "action": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "reply": "Reply",
+      "report": "Report",
+      "submit": "Submit",
+      "writeComment": "Write Comment",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "attachImage": "Attach Image",
+      "share": "Share"
+    },
+    "shareCopied": "URL copied",
+    "shareFailed": "Failed to copy URL",
+    "comments": "Comments",
+    "commentPlaceholder": "Write a comment...",
+    "replyPlaceholder": "Write a reply...",
+    "report": {
+      "title": "Report",
+      "reasonPrompt": "Enter reason for reporting",
+      "selectReason": "Select a reason",
+      "detailsLabel": "Additional details",
+      "detailsOptional": "optional",
+      "detailsRequired": "required",
+      "detailsPlaceholder": "Add any extra context (optional)",
+      "imagesLabel": "Attach images",
+      "submit": "Submit report",
+      "done": "Report submitted",
+      "reasons": {
+        "spam": "Spam / ads",
+        "abuse": "Abusive / hateful language",
+        "adult": "Adult / sexual content",
+        "privacy": "Privacy violation",
+        "fake": "Impersonation / fraud",
+        "inappropriate": "Inappropriate content",
+        "other": "Other"
+      }
+    },
+    "edited": "edited",
+    "deletedComment": "Deleted comment",
+    "suspendedComment": "Account no longer valid",
+    "poll": {
+      "totalVotes": "{n} total votes"
+    },
+    "write": {
+      "titlePlaceholder": "Enter a title",
+      "bodyPlaceholder": "Write your content here.",
+      "cancelEditConfirm": "You have unsaved changes. Discard them?",
+      "linkPrompt": "Enter the link URL",
+      "linkTextPrompt": "Enter display text",
+      "tableRows": "Number of rows",
+      "tableCols": "Number of columns",
+      "tableMaxRows": "Max {0} rows",
+      "tableMaxCols": "Max {0} cols",
+      "pollQuestionPlaceholder": "Enter poll question",
+      "pollOptionPlaceholder": "Option {n}",
+      "pollAddOption": "Add option",
+      "tool": {
+        "photo": "Photo",
+        "video": "Video",
+        "hr": "Divider",
+        "file": "File",
+        "link": "Link",
+        "table": "Table",
+        "poll": "Poll"
+      },
+      "para": {
+        "body": "Body",
+        "h1": "Heading 1",
+        "h2": "Heading 2",
+        "h3": "Heading 3"
+      },
+      "font": {
+        "default": "Default",
+        "serif": "Serif",
+        "mono": "Monospace"
+      },
+      "bold": "Bold",
+      "italic": "Italic",
+      "underline": "Underline",
+      "strike": "Strikethrough",
+      "fontColor": "Font Color",
+      "bgColor": "Background Color",
+      "highlight": "Highlight",
+      "alignLeft": "Align Left",
+      "alignCenter": "Align Center",
+      "alignRight": "Align Right"
+    }
+  }
+}
