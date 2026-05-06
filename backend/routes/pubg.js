@@ -11,10 +11,10 @@ const HEADERS = {
 // --- Simple in-memory cache ---
 const cache = new Map()
 const CACHE_TTL = {
-  players: 2 * 60 * 1000,        // 2 min
+  players: 30 * 60 * 1000,       // 30 min (name → ID rarely changes)
   seasons: 30 * 60 * 1000,       // 30 min
-  seasonStats: 2 * 60 * 1000,    // 2 min
-  matches: 60 * 60 * 1000,       // 1 hour (match data doesn't change)
+  seasonStats: 20 * 60 * 1000,   // 20 min (aligns with PUBG 5-15 min post-match delay)
+  matches: 60 * 60 * 1000,       // 1 hour (match data is immutable)
 }
 
 function getCached(key) {
