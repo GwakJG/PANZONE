@@ -6,6 +6,7 @@ const { bumpAchievedTier, calcTier } = require('../lib/tier')
 const { isAdminViewer } = require('../lib/viewer')
 const { sendNotification } = require('../lib/notify')
 const { hasTabs, isValidTab } = require('../lib/boardTabs')
+const { sanitizePostBody } = require('../lib/sanitizePostBody')
 
 // JOIN aliases used across queries that need the post author's tier.
 const AUTHOR_TIER_COLUMNS = `
@@ -440,6 +441,9 @@ router.post('/', authMiddleware, requireActive, async (req, res) => {
     if (!body || !body.trim()) return res.status(400).json({ error: 'Body required' })
     if (body.length > BODY_MAX) return res.status(400).json({ error: 'Body too long' })
 
+    const cleanBody = sanitizePostBody(body)
+    if (!cleanBody.trim()) return res.status(400).json({ error: 'Body required' })
+
     const board = await resolveBoard(boardSlug)
     if (!board) return res.status(404).json({ error: 'Board not found' })
 
@@ -475,11 +479,11 @@ router.post('/', authMiddleware, requireActive, async (req, res) => {
       const [result] = await conn.query(
         `INSERT INTO posts (board_id, user_id, title, body, subcategory, is_pinned, admin_notice_at)
          VALUES (?, ?, ?, ?, ?, ?, ${adminNoticeSql})`,
-        [board.id, req.user.id, title.trim(), body, subcategoryValue, pinned]
+        [board.id, req.user.id, title.trim(), cleanBody, subcategoryValue, pinned]
       )
       postId = result.insertId
 
-      const thumb = extractFirstImage(body)
+      const thumb = extractFirstImage(cleanBody)
       if (thumb) {
         await conn.query(
           'INSERT INTO post_images (post_id, url, sort_order) VALUES (?, ?, 0)',
@@ -537,6 +541,7 @@ router.patch('/:id', authMiddleware, requireActive, async (req, res) => {
 
     const fields = []
     const params = []
+    let cleanBody = null
     if (title !== undefined) {
       if (!title || !title.trim()) return res.status(400).json({ error: 'Title required' })
       if (title.length > TITLE_MAX) return res.status(400).json({ error: 'Title too long' })
@@ -546,8 +551,10 @@ router.patch('/:id', authMiddleware, requireActive, async (req, res) => {
     if (body !== undefined) {
       if (!body || !body.trim()) return res.status(400).json({ error: 'Body required' })
       if (body.length > BODY_MAX) return res.status(400).json({ error: 'Body too long' })
+      cleanBody = sanitizePostBody(body)
+      if (!cleanBody.trim()) return res.status(400).json({ error: 'Body required' })
       fields.push('body = ?')
-      params.push(body)
+      params.push(cleanBody)
     }
     if (isPinned !== undefined && isAdmin) {
       fields.push('is_pinned = ?')
@@ -565,9 +572,9 @@ router.patch('/:id', authMiddleware, requireActive, async (req, res) => {
     params.push(id)
     await pool.query(`UPDATE posts SET ${fields.join(', ')} WHERE id = ?`, params)
 
-    if (body !== undefined) {
+    if (cleanBody !== null) {
       await pool.query('DELETE FROM post_images WHERE post_id = ?', [id])
-      const thumb = extractFirstImage(body)
+      const thumb = extractFirstImage(cleanBody)
       if (thumb) {
         await pool.query(
           'INSERT INTO post_images (post_id, url, sort_order) VALUES (?, ?, 0)',

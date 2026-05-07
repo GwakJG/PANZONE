@@ -7,6 +7,7 @@ const { authMiddleware } = require('../middleware/auth')
 const { requireAdmin } = require('../middleware/requireAdmin')
 const { calcTier } = require('../lib/tier')
 const { sendNotification } = require('../lib/notify')
+const { sanitizePostBody } = require('../lib/sanitizePostBody')
 
 const router = express.Router()
 
@@ -1023,6 +1024,9 @@ router.post('/notices/broadcast', async (req, res) => {
   if (title.length > 40) return res.status(400).json({ error: 'Title too long' })
   if (typeof body !== 'string' || !body.trim()) return res.status(400).json({ error: 'Body required' })
 
+  const cleanBody = sanitizePostBody(body)
+  if (!cleanBody.trim()) return res.status(400).json({ error: 'Body required' })
+
   const conn = await pool.getConnection()
   try {
     await conn.beginTransaction()
@@ -1041,11 +1045,11 @@ router.post('/notices/broadcast', async (req, res) => {
       const [r] = await conn.query(
         `INSERT INTO posts (board_id, user_id, title, body, is_pinned, admin_notice_at)
          VALUES (?, ?, ?, ?, ?, ${adminNoticeSql})`,
-        [b.id, req.user.id, title.trim(), body, pinned]
+        [b.id, req.user.id, title.trim(), cleanBody, pinned]
       )
       created.push({ id: r.insertId, boardSlug: b.slug })
       // Extract and store the first image so list thumbnails work (same logic as posts.js POST).
-      const m = body.match(/<img[^>]+src=["']([^"']+)["']/i)
+      const m = cleanBody.match(/<img[^>]+src=["']([^"']+)["']/i)
       if (m && m[1] && m[1].length <= 500) {
         await conn.query(
           'INSERT INTO post_images (post_id, url, sort_order) VALUES (?, ?, 0)',
