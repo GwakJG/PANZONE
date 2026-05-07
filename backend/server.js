@@ -14,6 +14,8 @@ if (!ALLOWED_ENVS.has(process.env.NODE_ENV)) {
 const path = require('path')
 const express = require('express')
 const cors = require('cors')
+const helmet = require('helmet')
+const rateLimit = require('express-rate-limit')
 const { runMigrations } = require('./db')
 const pubgRoutes = require('./routes/pubg')
 const authRoutes = require('./routes/auth')
@@ -33,13 +35,61 @@ const { runSuspensionPurge } = require('./lib/suspensionPurge')
 
 const app = express()
 const PORT = process.env.PORT || 3001
+const isProd = process.env.NODE_ENV === 'production'
 
-app.use(cors())
+// Behind nginx — needed for express-rate-limit to read the client IP
+// from X-Forwarded-For instead of seeing every request as 127.0.0.1.
+app.set('trust proxy', 1)
+
+// Security headers. Loosened defaults:
+//   - contentSecurityPolicy: false — would block existing inline styles /
+//     event handlers in user-authored post bodies. Revisit after a CSP audit.
+//   - crossOriginResourcePolicy: 'cross-origin' — /uploads/* is fetched by
+//     the SPA on a different port in dev (5173 vs 3001).
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  crossOriginEmbedderPolicy: false,
+}))
+
+// Production: only the live domain (and www) — block reflected-XSS-via-CORS
+// from any other origin. Dev: any origin (vite on 5173).
+const corsOptions = isProd
+  ? { origin: ['https://panzone.org', 'https://www.panzone.org'], credentials: true }
+  : { origin: true, credentials: true }
+app.use(cors(corsOptions))
+
 app.use(express.json({ limit: '2mb' }))
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
   maxAge: '7d',
   index: false,
+  setHeaders: res => {
+    res.setHeader('X-Content-Type-Options', 'nosniff')
+  },
+}))
+
+// Rate-limit auth endpoints. Without this, /forgot-password lets an
+// attacker enumerate accounts AND DoS valid users (every call to
+// /forgot-password rotates that user's password to a fresh temp value).
+// 5/min per IP keeps legitimate retry feasible while blocking automated
+// abuse. Signup is slightly more permissive.
+const authLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Please wait a minute and try again.' },
+})
+app.use('/api/auth/login', authLimiter)
+app.use('/api/auth/send-code', authLimiter)
+app.use('/api/auth/forgot-password', authLimiter)
+app.use('/api/auth/signup', rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many signup attempts. Please wait and try again.' },
 }))
 
 app.use('/api/pubg', pubgRoutes)
