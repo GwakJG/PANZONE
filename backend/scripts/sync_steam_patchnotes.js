@@ -52,7 +52,7 @@ function extractFirstImage(html) {
 // users go straight to PUBG's site instead of Steam's "leaving Steam" wrapper.
 function extractPubgUrl(rawContents) {
   if (!rawContents) return null
-  const m = rawContents.match(/https?:\/\/(?:www\.)?pubg\.com\/(?:[a-z\-]+\/)?news\/(\d+)/i)
+  const m = rawContents.match(/https?:\/\/(?:www\.)?pubg\.com\/(?:[a-z-]+\/)?news\/(\d+)/i)
   if (!m) return null
   // PUBG serves the same article in both /news/<id> (English SSR) and
   // /ko/news/<id> (Korean SSR). We fetch the Korean version so the post body

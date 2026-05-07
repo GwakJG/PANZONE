@@ -85,7 +85,7 @@ function sanitize(html) {
     const kept = []
 
     if (allow.length) {
-      const attrRe = /([a-zA-Z_:][\w:.\-]*)\s*=\s*("[^"]*"|'[^']*'|[^\s"'>]+)/g
+      const attrRe = /([a-zA-Z_:][\w:.-]*)\s*=\s*("[^"]*"|'[^']*'|[^\s"'>]+)/g
       let am
       while ((am = attrRe.exec(attrsRaw))) {
         const name = am[1].toLowerCase()

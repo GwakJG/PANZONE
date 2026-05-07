@@ -39,7 +39,7 @@ export default function CommunityBoard() {
 
   function handleViewChange(next) {
     setView(next)
-    try { localStorage.setItem('pubgop_board_view', next) } catch {}
+    try { localStorage.setItem('pubgop_board_view', next) } catch { /* storage disabled — no-op */ }
   }
 
   // Page lives in the URL (?page=N) so back/forward navigation restores it.

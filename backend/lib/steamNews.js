@@ -57,7 +57,7 @@ function bbcodeToHtml(src) {
   }
 
   s = s.replace(/\[previewyoutube=([^;\];]+)(?:;[^\]]*)?\]\s*\[\/previewyoutube\]/gi, (_, id) => {
-    const safeId = String(id).replace(/[^a-zA-Z0-9_\-]/g, '')
+    const safeId = String(id).replace(/[^a-zA-Z0-9_-]/g, '')
     if (!safeId) return ''
     return stash(`<p><a href="https://www.youtube.com/watch?v=${safeId}" target="_blank" rel="noopener">YouTube: ${safeId}</a></p>`)
   })
@@ -111,7 +111,7 @@ function bbcodeToHtml(src) {
 
   s = bbcodeInline(s, stash)
 
-  s = s.replace(/\[\/?[a-zA-Z][a-zA-Z0-9_=;:.\/\- "']*\]/g, '')
+  s = s.replace(/\[\/?[a-zA-Z][a-zA-Z0-9_=;:./\- "']*\]/g, '')
 
   s = escapeHtml(s)
 
