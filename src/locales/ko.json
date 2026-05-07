@@ -378,7 +378,8 @@
     "recent": {
       "title": "최근 20게임 평균",
       "avgRank": "평균 등수",
-      "rankHistory": "등수 이력"
+      "rankHistory": "등수 이력",
+      "matchesTitle": "최근 매치"
     },
     "detailTabs": {
       "allOverall": "일반 전체",

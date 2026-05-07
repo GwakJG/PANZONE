@@ -378,7 +378,8 @@
     "recent": {
       "title": "Last 20 Games Avg",
       "avgRank": "Avg Rank",
-      "rankHistory": "Rank History"
+      "rankHistory": "Rank History",
+      "matchesTitle": "Recent Matches"
     },
     "detailTabs": {
       "allOverall": "Normal All",

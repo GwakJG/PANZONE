@@ -24,14 +24,6 @@ const TAB_I18N = {
   'ranked-squad':    'stats.detailTabs.rankedSquad',
 }
 
-function getStatsForTab(playerStats, perspective, tabKey) {
-  const [category, mode] = tabKey.split('-')
-  const cat = category === 'ranked' ? 'ranked' : 'all'
-  const data = playerStats?.[cat]?.[perspective]
-  if (!data) return null
-  return mode === 'overall' ? data.overall : data[mode]
-}
-
 function matchModeFilter(tabKey, perspective) {
   const fpp = perspective === 'fpp'
   if (tabKey.includes('solo')) return fpp ? ['solo-fpp'] : ['solo']
@@ -41,7 +33,7 @@ function matchModeFilter(tabKey, perspective) {
   return fpp ? ['solo-fpp', 'duo-fpp', 'squad-fpp'] : ['solo', 'duo', 'squad']
 }
 
-export default function DetailTabs({ platform, playerStats, perspective, matchIds, playerName, playerId }) {
+export default function DetailTabs({ platform, perspective, matchIds, playerName, playerId }) {
   const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState('ranked-overall')
   const [matches, setMatches] = useState([])
@@ -157,13 +149,12 @@ export default function DetailTabs({ platform, playerStats, perspective, matchId
     })
     .filter(Boolean)
 
-  // Limit to season match count
-  const tabStats = getStatsForTab(playerStats, perspective, activeTab)
-  const seasonMatchCount = tabStats?.matches ?? 0
-  const seasonMatchCards = matchCards.slice(0, seasonMatchCount)
-
-  // Build recent games for summary
-  const recentGames = seasonMatchCards.slice(0, 20).map(m => ({
+  // PUBG only returns the player's most recent ~14 matches across all
+  // seasons. The match list/summary therefore always reflects the latest
+  // matches that pass the active tab/mode/perspective filters — independent
+  // of the season selector above.
+  const recentMatchCards = matchCards
+  const recentGames = recentMatchCards.slice(0, 20).map(m => ({
     rank: m.rank,
     kills: m.kills,
     damage: m.damage,
@@ -172,6 +163,7 @@ export default function DetailTabs({ platform, playerStats, perspective, matchId
 
   return (
     <div className="detail-tabs-section">
+      <h3 className="recent-matches-title">{t('stats.recent.matchesTitle')}</h3>
       <div className="detail-tabs">
         {TAB_KEYS.map(key => (
           <button
@@ -189,10 +181,10 @@ export default function DetailTabs({ platform, playerStats, perspective, matchId
             <div className="stats-spinner" />
             <p>{t('stats.loadingMatches')}</p>
           </div>
-        ) : seasonMatchCards.length > 0 ? (
+        ) : recentMatchCards.length > 0 ? (
           <>
             <RecentSummary games={recentGames} />
-            <MatchList matches={seasonMatchCards} platform={platform} />
+            <MatchList matches={recentMatchCards} platform={platform} />
           </>
         ) : (
           <div className="stats-card-empty">
