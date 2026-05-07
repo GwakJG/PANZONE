@@ -358,6 +358,7 @@
     "lastUpdated": "Last Updated",
     "addFavorite": "Add to favorites",
     "removeFavorite": "Remove from favorites",
+    "loginRequiredFavorite": "Sign in to use favorites",
     "perspective": {
       "fpp": "FPP",
       "tpp": "TPP"

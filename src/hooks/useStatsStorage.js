@@ -1,7 +1,11 @@
-import { useState, useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useAuth } from '../context/AuthContext'
+import { useLanguage } from '../context/LanguageContext'
+import { useToast } from '../context/ToastContext'
+import * as favApi from '../services/statsFavoritesApi'
 
 const HISTORY_KEY = 'pubgop_stats_history'
-const FAVORITES_KEY = 'pubgop_stats_favorites'
+const LEGACY_FAVORITES_KEY = 'pubgop_stats_favorites'
 
 function load(key) {
   try {
@@ -17,8 +21,50 @@ function save(key, data) {
 }
 
 export function useStatsStorage() {
+  const { user, ready } = useAuth()
+  const { t } = useLanguage()
+  const showToast = useToast()
+
   const [history, setHistory] = useState(() => load(HISTORY_KEY))
-  const [favorites, setFavorites] = useState(() => load(FAVORITES_KEY))
+  const [favorites, setFavorites] = useState([])
+  const migratedUserIdRef = useRef(null)
+
+  // Sync favorites with server when auth state changes; migrate legacy localStorage on first sync.
+  useEffect(() => {
+    if (!ready) return
+    let cancelled = false
+
+    async function sync() {
+      if (!user) {
+        setFavorites([])
+        migratedUserIdRef.current = null
+        return
+      }
+
+      try {
+        if (migratedUserIdRef.current !== user.id) {
+          const legacy = load(LEGACY_FAVORITES_KEY)
+          if (legacy.length > 0) {
+            await Promise.all(
+              legacy.map(f =>
+                favApi.addFavorite(f.player, f.platform).catch(() => null)
+              )
+            )
+          }
+          localStorage.removeItem(LEGACY_FAVORITES_KEY)
+          migratedUserIdRef.current = user.id
+        }
+
+        const { items } = await favApi.fetchFavorites()
+        if (!cancelled) setFavorites(items || [])
+      } catch {
+        // best-effort; leave favorites empty rather than crash the page
+      }
+    }
+
+    sync()
+    return () => { cancelled = true }
+  }, [user, ready])
 
   const addHistory = useCallback((player, platform) => {
     setHistory(prev => {
@@ -46,33 +92,45 @@ export function useStatsStorage() {
     localStorage.removeItem(HISTORY_KEY)
   }, [])
 
+  const promptLogin = useCallback(() => {
+    showToast(t('stats.loginRequiredFavorite'))
+  }, [showToast, t])
+
   const toggleFavorite = useCallback((player, platform) => {
-    setFavorites(prev => {
-      const exists = prev.some(
-        f => f.player === player && f.platform === platform
+    if (!user) {
+      promptLogin()
+      return
+    }
+    const exists = favorites.some(
+      f => f.player === player && f.platform === platform
+    )
+    if (exists) {
+      setFavorites(prev =>
+        prev.filter(f => !(f.player === player && f.platform === platform))
       )
-      const next = exists
-        ? prev.filter(f => !(f.player === player && f.platform === platform))
-        : [...prev, { player, platform, timestamp: Date.now() }]
-      save(FAVORITES_KEY, next)
-      return next
-    })
-  }, [])
+      favApi.removeFavorite(player, platform).catch(() => {})
+    } else {
+      setFavorites(prev => [
+        ...prev,
+        { player, platform, timestamp: Date.now() },
+      ])
+      favApi.addFavorite(player, platform).catch(() => {})
+    }
+  }, [user, favorites, promptLogin])
 
   const removeFavorite = useCallback((player, platform) => {
-    setFavorites(prev => {
-      const next = prev.filter(
-        f => !(f.player === player && f.platform === platform)
-      )
-      save(FAVORITES_KEY, next)
-      return next
-    })
-  }, [])
+    if (!user) return
+    setFavorites(prev =>
+      prev.filter(f => !(f.player === player && f.platform === platform))
+    )
+    favApi.removeFavorite(player, platform).catch(() => {})
+  }, [user])
 
   const clearFavorites = useCallback(() => {
+    if (!user) return
     setFavorites([])
-    localStorage.removeItem(FAVORITES_KEY)
-  }, [])
+    favApi.clearFavorites().catch(() => {})
+  }, [user])
 
   const isFavorite = useCallback((player, platform) => {
     return favorites.some(

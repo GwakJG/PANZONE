@@ -358,6 +358,7 @@
     "lastUpdated": "최근 업데이트",
     "addFavorite": "즐겨찾기 추가",
     "removeFavorite": "즐겨찾기 해제",
+    "loginRequiredFavorite": "즐겨찾기는 로그인 후 이용할 수 있습니다",
     "perspective": {
       "fpp": "1인칭",
       "tpp": "3인칭"
