@@ -179,12 +179,11 @@ router.post('/forgot-password', async (req, res) => {
       'SELECT id FROM users WHERE email = ? AND deleted_at IS NULL',
       [email]
     )
-    // Always respond { ok: true } regardless of whether the email is registered.
-    // Returning 404 leaks the user list (account enumeration); attackers could
-    // probe forgot-password to build a list of valid signups.
-    if (!rows.length) {
-      return res.json({ ok: true })
-    }
+    // Trade-off accepted: we return 404 here so users who typo their email
+    // see "등록되지 않은 이메일입니다" in the UI. This is enumerable, but the
+    // /api/auth/* rate-limiter (5/min per IP) makes bulk probing slow enough
+    // that the UX win beats the residual risk at our scale.
+    if (!rows.length) return res.status(404).json({ error: 'Email not registered' })
 
     const tempPassword = generateTempPassword()
     const hash = await bcrypt.hash(tempPassword, 10)

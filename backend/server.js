@@ -79,7 +79,7 @@ const authLimiter = rateLimit({
   max: 5,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: 'Too many requests. Please wait a minute and try again.' },
+  message: { error: '요청이 너무 많습니다. 1분 후 다시 시도해주세요.' },
 })
 app.use('/api/auth/login', authLimiter)
 app.use('/api/auth/send-code', authLimiter)
@@ -89,7 +89,7 @@ app.use('/api/auth/signup', rateLimit({
   max: 10,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: 'Too many signup attempts. Please wait and try again.' },
+  message: { error: '회원가입 시도가 너무 많습니다. 잠시 후 다시 시도해주세요.' },
 }))
 
 app.use('/api/pubg', pubgRoutes)
