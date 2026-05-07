@@ -7,7 +7,14 @@ import BoardViewToggle from '../components/community/BoardViewToggle'
 import PostListView from '../components/community/PostListView'
 import PostCardView from '../components/community/PostCardView'
 import BoardPagination from '../components/community/BoardPagination'
-import { isValidBoard, canWrite, DEFAULT_BOARD } from '../components/community/boards'
+import {
+  isValidBoard,
+  canWrite,
+  DEFAULT_BOARD,
+  hasTabs,
+  isValidTab,
+  BOARD_TABS,
+} from '../components/community/boards'
 import { fetchPosts } from '../services/postApi'
 
 const PAGE_SIZE = 20
@@ -40,11 +47,26 @@ export default function CommunityBoard() {
   const pageParam = parseInt(searchParams.get('page') || '1', 10)
   const page = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1
 
+  const tabsForBoard = hasTabs(boardId) ? BOARD_TABS[boardId] : null
+  const rawTab = searchParams.get('tab') || 'all'
+  const activeTab = (rawTab === 'all' || isValidTab(boardId, rawTab)) ? rawTab : 'all'
+
   function setPage(next) {
     setSearchParams(prev => {
       const out = new URLSearchParams(prev)
       if (next <= 1) out.delete('page')
       else out.set('page', String(next))
+      return out
+    })
+  }
+
+  function setTab(nextTab) {
+    setSearchParams(prev => {
+      const out = new URLSearchParams(prev)
+      if (nextTab === 'all') out.delete('tab')
+      else out.set('tab', nextTab)
+      // Reset page when switching tabs.
+      out.delete('page')
       return out
     })
   }
@@ -67,7 +89,8 @@ export default function CommunityBoard() {
     let cancelled = false
     setLoading(true)
     setError(null)
-    fetchPosts({ board: boardId, page, pageSize: PAGE_SIZE })
+    const subcategory = (tabsForBoard && activeTab !== 'all') ? activeTab : undefined
+    fetchPosts({ board: boardId, page, pageSize: PAGE_SIZE, subcategory })
       .then(data => {
         if (cancelled) return
         setPosts(data.posts)
@@ -81,7 +104,7 @@ export default function CommunityBoard() {
         if (!cancelled) setLoading(false)
       })
     return () => { cancelled = true }
-  }, [boardId, page])
+  }, [boardId, page, activeTab, tabsForBoard])
 
   if (!isValidBoard(boardId)) {
     return <Navigate to={`/community/${DEFAULT_BOARD}`} replace />
@@ -103,6 +126,28 @@ export default function CommunityBoard() {
           </div>
           <BoardViewToggle view={view} onChange={handleViewChange} />
         </header>
+
+        {tabsForBoard && (
+          <div className="hot-period-tabs">
+            <button
+              type="button"
+              className={`hot-period-tab ${activeTab === 'all' ? 'active' : ''}`}
+              onClick={() => setTab('all')}
+            >
+              {t('community.boardTabs.all')}
+            </button>
+            {tabsForBoard.map(key => (
+              <button
+                key={key}
+                type="button"
+                className={`hot-period-tab ${activeTab === key ? 'active' : ''}`}
+                onClick={() => setTab(key)}
+              >
+                {t(`community.boardTabs.${boardId}.${key}`)}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="board-content">
           {loading ? (

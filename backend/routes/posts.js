@@ -5,6 +5,7 @@ const { requireActive } = require('../middleware/requireActive')
 const { bumpAchievedTier, calcTier } = require('../lib/tier')
 const { isAdminViewer } = require('../lib/viewer')
 const { sendNotification } = require('../lib/notify')
+const { hasTabs, isValidTab } = require('../lib/boardTabs')
 
 // JOIN aliases used across queries that need the post author's tier.
 const AUTHOR_TIER_COLUMNS = `
@@ -47,6 +48,7 @@ function serializePostRow(row) {
     id: row.id,
     boardSlug: row.board_slug,
     title: row.title,
+    subcategory: row.subcategory || null,
     author: row.author_name,
     authorAvatar: row.author_avatar,
     authorTier: authorTierOf(row),
@@ -166,6 +168,11 @@ router.get('/', optionalAuth, async (req, res) => {
       where.push('p.board_id = ?')
       params.push(board.id)
     }
+    const subcategory = (req.query.subcategory || '').trim()
+    if (subcategory && board && isValidTab(board.slug, subcategory)) {
+      where.push('p.subcategory = ?')
+      params.push(subcategory)
+    }
     if (q) {
       const like = `%${q}%`
       if (field === 'title') {
@@ -194,7 +201,7 @@ router.get('/', optionalAuth, async (req, res) => {
     const total = countRows[0].total
 
     const [rows] = await pool.query(
-      `SELECT p.id, p.title, p.is_pinned, p.view_count, p.like_count, p.comment_count,
+      `SELECT p.id, p.title, p.subcategory, p.is_pinned, p.view_count, p.like_count, p.comment_count,
               p.created_at, p.user_id,
               u.name AS author_name, u.avatar_url AS author_avatar,
               ${AUTHOR_TIER_COLUMNS},
@@ -295,7 +302,7 @@ router.get('/hot', optionalAuth, async (req, res) => {
       : `AND u.suspended_at IS NULL ${noticeExclusion}`
 
     const [rows] = await pool.query(
-      `SELECT p.id, p.title, p.is_pinned, p.view_count, p.like_count, p.comment_count,
+      `SELECT p.id, p.title, p.subcategory, p.is_pinned, p.view_count, p.like_count, p.comment_count,
               p.created_at, p.user_id,
               u.name AS author_name, u.avatar_url AS author_avatar,
               ${AUTHOR_TIER_COLUMNS},
@@ -426,7 +433,7 @@ router.get('/:id', optionalAuth, async (req, res) => {
 // are writable by admin/mod (needed for announcement/patch-notes boards).
 router.post('/', authMiddleware, requireActive, async (req, res) => {
   try {
-    const { boardSlug, title, body, isPinned } = req.body || {}
+    const { boardSlug, title, body, isPinned, subcategory } = req.body || {}
     if (!boardSlug) return res.status(400).json({ error: 'boardSlug required' })
     if (!title || !title.trim()) return res.status(400).json({ error: 'Title required' })
     if (title.length > TITLE_MAX) return res.status(400).json({ error: 'Title too long' })
@@ -435,6 +442,14 @@ router.post('/', authMiddleware, requireActive, async (req, res) => {
 
     const board = await resolveBoard(boardSlug)
     if (!board) return res.status(404).json({ error: 'Board not found' })
+
+    let subcategoryValue = null
+    if (hasTabs(board.slug)) {
+      if (!subcategory || !isValidTab(board.slug, subcategory)) {
+        return res.status(400).json({ error: 'subcategory required for this board' })
+      }
+      subcategoryValue = subcategory
+    }
 
     // Re-check role from DB (JWT may be stale).
     const [meRows] = await pool.query(
@@ -453,9 +468,9 @@ router.post('/', authMiddleware, requireActive, async (req, res) => {
     // time when an admin publishes with pin=1; never set on later pin toggles.
     const adminNoticeSql = isAdmin && pinned ? 'CURRENT_TIMESTAMP' : 'NULL'
     const [result] = await pool.query(
-      `INSERT INTO posts (board_id, user_id, title, body, is_pinned, admin_notice_at)
-       VALUES (?, ?, ?, ?, ?, ${adminNoticeSql})`,
-      [board.id, req.user.id, title.trim(), body, pinned]
+      `INSERT INTO posts (board_id, user_id, title, body, subcategory, is_pinned, admin_notice_at)
+       VALUES (?, ?, ?, ?, ?, ?, ${adminNoticeSql})`,
+      [board.id, req.user.id, title.trim(), body, subcategoryValue, pinned]
     )
     const postId = result.insertId
 
@@ -480,20 +495,24 @@ router.post('/', authMiddleware, requireActive, async (req, res) => {
   }
 })
 
-// PATCH /api/posts/:id { title?, body?, isPinned? }
-// Owner can edit own title/body. Admin/mod can edit ANY post and toggle isPinned.
+// PATCH /api/posts/:id { title?, body?, isPinned?, subcategory? }
+// Owner can edit own title/body/subcategory. Admin/mod can edit ANY post and toggle isPinned.
 router.patch('/:id', authMiddleware, requireActive, async (req, res) => {
   try {
     const id = parseId(req.params.id)
     if (!id) return res.status(400).json({ error: 'Invalid post id' })
-    const { title, body, isPinned } = req.body || {}
+    const { title, body, isPinned, subcategory } = req.body || {}
 
     const [rows] = await pool.query(
-      'SELECT user_id FROM posts WHERE id = ? AND deleted_at IS NULL',
+      `SELECT p.user_id, b.slug AS board_slug
+       FROM posts p
+       JOIN boards b ON b.id = p.board_id
+       WHERE p.id = ? AND p.deleted_at IS NULL`,
       [id]
     )
     if (!rows.length) return res.status(404).json({ error: 'Post not found' })
 
+    const boardSlug = rows[0].board_slug
     const isOwner = rows[0].user_id === req.user.id
     let isAdmin = false
     if (!isOwner || isPinned !== undefined) {
@@ -522,6 +541,13 @@ router.patch('/:id', authMiddleware, requireActive, async (req, res) => {
     if (isPinned !== undefined && isAdmin) {
       fields.push('is_pinned = ?')
       params.push(isPinned ? 1 : 0)
+    }
+    if (subcategory !== undefined && hasTabs(boardSlug)) {
+      if (!isValidTab(boardSlug, subcategory)) {
+        return res.status(400).json({ error: 'invalid subcategory for this board' })
+      }
+      fields.push('subcategory = ?')
+      params.push(subcategory)
     }
     if (!fields.length) return res.status(400).json({ error: 'No fields to update' })
 

@@ -9,7 +9,7 @@ import { useLanguage } from '../context/LanguageContext'
 import BoardSidebar from '../components/community/BoardSidebar'
 import { fetchPosts, fetchHotPosts, fetchFeaturedPosts } from '../services/postApi'
 
-const CARD_BOARDS = ['event', 'free']
+const CARD_BOARDS = ['event', 'discord']
 const CARD_PAGE_SIZE = 6
 const CAROUSEL_INTERVAL_MS = 5000
 
@@ -181,7 +181,7 @@ function BoardCard({ titleKey, href, posts, loading, emptyKey }) {
 
 export default function Home() {
   const [featured, setFeatured] = useState([])
-  const [cards, setCards] = useState({ event: [], free: [], hot: [] })
+  const [cards, setCards] = useState({ event: [], discord: [], hot: [] })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -199,7 +199,7 @@ export default function Home() {
         setFeatured(featuredRes.posts || [])
         setCards({
           event: boardResults[0].posts || [],
-          free: boardResults[1].posts || [],
+          discord: boardResults[1].posts || [],
           hot: (boardResults[2].posts || []).slice(0, CARD_PAGE_SIZE),
         })
       } catch {
@@ -227,9 +227,9 @@ export default function Home() {
             loading={loading}
           />
           <BoardCard
-            titleKey="community.board.free"
-            href="/community/free"
-            posts={cards.free}
+            titleKey="community.boardHomeCard.discord"
+            href="/community/discord"
+            posts={cards.discord}
             loading={loading}
           />
           <BoardCard

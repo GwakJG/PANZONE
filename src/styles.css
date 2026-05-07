@@ -3899,6 +3899,41 @@ a {
   margin-bottom: 24px;
 }
 
+.post-write-category {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-write-category-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.post-write-category-select {
+  flex: 1;
+  max-width: 240px;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.post-write-category-select:focus {
+  border-color: var(--primary);
+}
+
 .post-write-title {
   width: 100%;
   padding: 10px 0;

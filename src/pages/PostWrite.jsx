@@ -7,7 +7,14 @@ import BoardSidebar from '../components/community/BoardSidebar'
 import WriteToolbar from '../components/community/WriteToolbar'
 import FontToolbar from '../components/community/FontToolbar'
 import ConfirmModal from '../components/ConfirmModal'
-import { isValidBoard, canWrite, DEFAULT_BOARD } from '../components/community/boards'
+import {
+  isValidBoard,
+  canWrite,
+  DEFAULT_BOARD,
+  hasTabs,
+  isValidTab,
+  BOARD_TABS,
+} from '../components/community/boards'
 import { createPost, fetchPost, updatePost } from '../services/postApi'
 import { useApiError, isAuthError, isSuspendedError } from '../hooks/useApiError'
 
@@ -30,15 +37,18 @@ export default function PostWrite() {
   const [title, setTitle] = useState('')
   const [bodyHtml, setBodyHtml] = useState('')
   const [pinned, setPinned] = useState(false)
-  const [initial, setInitial] = useState({ title: '', body: '', pinned: false })
+  const [subcategory, setSubcategory] = useState('')
+  const [initial, setInitial] = useState({ title: '', body: '', pinned: false, subcategory: '' })
   const [loading, setLoading] = useState(!!postId)
   const [submitting, setSubmitting] = useState(false)
   const skipBlockRef = useRef(false)
   const isEdit = !!postId
+  const boardHasTabs = hasTabs(boardId)
   const dirty = isEdit && !loading && (
     title !== initial.title ||
     bodyHtml !== initial.body ||
-    (isAdmin && pinned !== initial.pinned)
+    (isAdmin && pinned !== initial.pinned) ||
+    (boardHasTabs && subcategory !== initial.subcategory)
   )
 
   useEffect(() => {
@@ -55,10 +65,12 @@ export default function PostWrite() {
           return
         }
         const body = post.body || ''
+        const sub = boardHasTabs && isValidTab(boardId, post.subcategory) ? post.subcategory : ''
         setTitle(post.title)
         setBodyHtml(body)
         setPinned(!!post.pinned)
-        setInitial({ title: post.title, body, pinned: !!post.pinned })
+        setSubcategory(sub)
+        setInitial({ title: post.title, body, pinned: !!post.pinned, subcategory: sub })
         if (editorRef.current) editorRef.current.innerHTML = body
       })
       .catch(() => {
@@ -271,16 +283,22 @@ export default function PostWrite() {
     if (!user) { requireLogin(); return }
     const body = serializeBody()
     if (!title.trim() || !body.trim()) return
+    if (boardHasTabs && !isValidTab(boardId, subcategory)) {
+      showToast(t('community.boardTabs.pickerRequired'), 'error')
+      return
+    }
     setSubmitting(true)
     try {
       if (isEdit) {
         const payload = { title, body }
         if (isAdmin) payload.isPinned = pinned
+        if (boardHasTabs) payload.subcategory = subcategory
         await updatePost(postId, payload)
         leaveToDetail(postId)
       } else {
         const payload = { boardSlug: boardId, title, body }
         if (isAdmin) payload.isPinned = pinned
+        if (boardHasTabs) payload.subcategory = subcategory
         const { id } = await createPost(payload)
         skipBlockRef.current = true
         navigate(`/community/${boardId}/${id}`)
@@ -305,6 +323,27 @@ export default function PostWrite() {
 
       <main className="board-main">
         <article className="post-write">
+          {boardHasTabs && (
+            <div className="post-write-category">
+              <label className="post-write-category-label" htmlFor="post-write-category-select">
+                {t('community.boardTabs.pickerLabel')}
+              </label>
+              <select
+                id="post-write-category-select"
+                className="post-write-category-select"
+                value={subcategory}
+                onChange={e => setSubcategory(e.target.value)}
+                disabled={loading || submitting}
+              >
+                <option value="">{t('community.boardTabs.pickerPlaceholder')}</option>
+                {BOARD_TABS[boardId].map(key => (
+                  <option key={key} value={key}>
+                    {t(`community.boardTabs.${boardId}.${key}`)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
           <input
             type="text"
             className="post-write-title"

@@ -465,13 +465,12 @@
       "event": "Events",
       "free": "Free Board",
       "qa": "Q&A",
-      "pride": "Showcase",
+      "pride": "Outfit",
       "streamer": "Streamers",
       "esports": "E-Sports",
-      "review": "Reviews",
-      "setting": "Settings",
-      "report": "Reports",
-      "discord": "Discord Servers",
+      "report": "Reports (hack · highlight · fun)",
+      "discord": "Promotion (discord · clan · friend)",
+      "tip": "Tips (setting · gun · map · arcade)",
       "loot": "Loot Box Odds"
     },
     "boardShort": {
@@ -480,14 +479,38 @@
       "event": "Events",
       "free": "Free",
       "qa": "Q&A",
-      "pride": "Showcase",
+      "pride": "Outfit",
       "streamer": "Streamer",
       "esports": "eSports",
-      "review": "Reviews",
-      "setting": "Settings",
-      "report": "Reports",
-      "discord": "Discord",
+      "report": "Reports (hack · highlight · fun)",
+      "discord": "Promotion (discord · clan · friend)",
+      "tip": "Tips (setting · gun · map · arcade)",
       "loot": "Loot"
+    },
+    "boardHomeCard": {
+      "discord": "Promotion"
+    },
+    "boardTabs": {
+      "all": "All",
+      "discord": {
+        "discord": "Discord",
+        "clan": "Clan",
+        "friend": "Friend"
+      },
+      "tip": {
+        "setting": "Settings",
+        "gun": "Gun",
+        "map": "Map",
+        "arcade": "Arcade"
+      },
+      "report": {
+        "hack": "Hack",
+        "highlight": "Highlight",
+        "fun": "Fun"
+      },
+      "pickerLabel": "Category",
+      "pickerPlaceholder": "Select a category",
+      "pickerRequired": "Please select a category"
     },
     "sidebar": {
       "home": "Home",

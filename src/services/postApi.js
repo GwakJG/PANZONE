@@ -25,12 +25,13 @@ async function request(path, { method = 'GET', body, auth = false } = {}) {
   return data
 }
 
-export function fetchPosts({ board, page = 1, pageSize = 20, q, field, all } = {}) {
+export function fetchPosts({ board, page = 1, pageSize = 20, q, field, all, subcategory } = {}) {
   const params = new URLSearchParams({ page, pageSize })
   if (board) params.set('board', board)
   if (q) params.set('q', q)
   if (field) params.set('field', field)
   if (all) params.set('all', '1')
+  if (subcategory) params.set('subcategory', subcategory)
   return request(`/?${params.toString()}`)
 }
 
@@ -46,17 +47,19 @@ export function fetchFeaturedPosts() {
   return request('/featured')
 }
 
-export function createPost({ boardSlug, title, body, isPinned }) {
+export function createPost({ boardSlug, title, body, isPinned, subcategory }) {
   const payload = { boardSlug, title, body }
   if (isPinned !== undefined) payload.isPinned = isPinned
+  if (subcategory !== undefined) payload.subcategory = subcategory
   return request('/', { method: 'POST', body: payload, auth: true })
 }
 
-export function updatePost(id, { title, body, isPinned }) {
+export function updatePost(id, { title, body, isPinned, subcategory }) {
   const payload = {}
   if (title !== undefined) payload.title = title
   if (body !== undefined) payload.body = body
   if (isPinned !== undefined) payload.isPinned = isPinned
+  if (subcategory !== undefined) payload.subcategory = subcategory
   return request(`/${id}`, { method: 'PATCH', body: payload, auth: true })
 }
 

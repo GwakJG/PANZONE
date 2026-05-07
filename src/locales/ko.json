@@ -465,13 +465,12 @@
       "event": "이벤트 게시판",
       "free": "자유 게시판",
       "qa": "Q&A 게시판",
-      "pride": "자랑 게시판",
+      "pride": "코디 게시판",
       "streamer": "스트리머 게시판",
       "esports": "e스포츠 게시판",
-      "review": "구매 후기",
-      "setting": "세팅 게시판",
-      "report": "제보 게시판",
-      "discord": "디스코드 홍보",
+      "report": "제보 게시판(핵 · 명장면 · fun)",
+      "discord": "홍보(디스코드 · 클랜 · 친구)",
+      "tip": "Tip(세팅 · 총기 · 맵 · 아케이드)",
       "loot": "확률형 아이템"
     },
     "boardShort": {
@@ -480,14 +479,38 @@
       "event": "이벤트 게시판",
       "free": "자유 게시판",
       "qa": "Q&A 게시판",
-      "pride": "자랑 게시판",
+      "pride": "코디 게시판",
       "streamer": "스트리머 게시판",
       "esports": "e스포츠 게시판",
-      "review": "구매 후기",
-      "setting": "세팅 게시판",
-      "report": "제보 게시판",
-      "discord": "디스코드 홍보",
+      "report": "제보 게시판(핵 · 명장면 · fun)",
+      "discord": "홍보(디스코드 · 클랜 · 친구)",
+      "tip": "Tip(세팅 · 총기 · 맵 · 아케이드)",
       "loot": "확률형 아이템"
+    },
+    "boardHomeCard": {
+      "discord": "홍보 게시판"
+    },
+    "boardTabs": {
+      "all": "전체",
+      "discord": {
+        "discord": "디스코드",
+        "clan": "클랜",
+        "friend": "친구"
+      },
+      "tip": {
+        "setting": "세팅",
+        "gun": "총기",
+        "map": "맵",
+        "arcade": "아케이드"
+      },
+      "report": {
+        "hack": "핵",
+        "highlight": "명장면",
+        "fun": "fun"
+      },
+      "pickerLabel": "카테고리",
+      "pickerPlaceholder": "카테고리를 선택하세요",
+      "pickerRequired": "카테고리를 선택해주세요"
     },
     "sidebar": {
       "home": "홈",

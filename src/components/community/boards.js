@@ -8,16 +8,21 @@ export const SIDEBAR_SECTIONS = [
     { kind: 'board', id: 'event' },
   ],
   [
-    { kind: 'link', id: 'hot', path: '/community/hot' },
     { kind: 'board', id: 'free' },
-    { kind: 'board', id: 'qa' },
-    { kind: 'board', id: 'pride' },
-    { kind: 'board', id: 'streamer' },
+    { kind: 'link', id: 'hot', path: '/community/hot' },
+  ],
+  [
     { kind: 'board', id: 'esports' },
-    { kind: 'board', id: 'review' },
-    { kind: 'board', id: 'setting' },
-    { kind: 'board', id: 'report' },
+    { kind: 'board', id: 'streamer' },
+  ],
+  [
+    { kind: 'board', id: 'qa' },
+    { kind: 'board', id: 'tip' },
+    { kind: 'board', id: 'pride' },
+  ],
+  [
     { kind: 'board', id: 'discord' },
+    { kind: 'board', id: 'report' },
   ],
   [
     { kind: 'board', id: 'loot' },
@@ -34,10 +39,28 @@ export const DEFAULT_BOARD = 'notice'
 
 const READ_ONLY_BOARDS = new Set(['notice', 'patch', 'event', 'loot'])
 
+// Boards with internal category tabs.
+// Tab keys are stored verbatim in `posts.subcategory`; labels resolved via
+// `community.boardTabs.<board>.<key>` locale path.
+export const BOARD_TABS = {
+  discord: ['discord', 'clan', 'friend'],
+  tip:     ['setting', 'gun', 'map', 'arcade'],
+  report:  ['hack', 'highlight', 'fun'],
+}
+
 export function isValidBoard(id) {
   return BOARDS.includes(id)
 }
 
 export function canWrite(id) {
   return isValidBoard(id) && !READ_ONLY_BOARDS.has(id)
+}
+
+export function hasTabs(id) {
+  return Object.prototype.hasOwnProperty.call(BOARD_TABS, id)
+}
+
+export function isValidTab(boardId, tabKey) {
+  if (!hasTabs(boardId)) return false
+  return BOARD_TABS[boardId].includes(tabKey)
 }
