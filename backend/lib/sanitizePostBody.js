@@ -49,15 +49,13 @@ const options = {
   },
   allowedSchemes: ['http', 'https', 'mailto', 'tel'],
   allowedSchemesByTag: {
-    // PostWrite uses URL.createObjectURL(file) → blob:... for video/audio
-    // attachments and may do the same for image previews. Allow `blob` so
-    // sanitize doesn't strip the src attribute and leave an empty media tag.
-    // (The underlying "blob URLs don't survive reload" bug is pre-existing
-    // and tracked separately — proper fix is to upload the file.)
-    img: ['http', 'https', 'data', 'blob'],
-    video: ['http', 'https', 'blob'],
-    source: ['http', 'https', 'blob'],
-    audio: ['http', 'https', 'blob'],
+    // Images/videos must use real URLs (uploaded to /uploads/... or external
+    // http(s)). blob: URLs are session-local and don't survive a reload, so
+    // we don't accept them at save time.
+    img: ['http', 'https', 'data'],
+    video: ['http', 'https'],
+    source: ['http', 'https'],
+    audio: ['http', 'https'],
   },
   allowedSchemesAppliedToAttributes: ['href', 'src', 'cite', 'action', 'longdesc'],
   allowProtocolRelative: false,

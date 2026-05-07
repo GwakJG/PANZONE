@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { useLanguage } from '../../context/LanguageContext'
 import { useToast } from '../../context/ToastContext'
-import { uploadImage } from '../../services/uploadApi'
+import { uploadImage, uploadVideo } from '../../services/uploadApi'
 import { useApiError, isAuthError, isSuspendedError } from '../../hooks/useApiError'
 import LinkInsertModal from './LinkInsertModal'
 import TableInsertModal from './TableInsertModal'
@@ -50,12 +50,19 @@ export default function WriteToolbar({ onInsert }) {
     }
   }
 
-  function handleVideo(e) {
+  async function handleVideo(e) {
     const f = e.target.files?.[0]
-    if (!f) return
-    const url = URL.createObjectURL(f)
-    onInsert('video', url)
     e.target.value = ''
+    if (!f) return
+    setUploading(true)
+    try {
+      const url = await uploadVideo(f)
+      onInsert('video', url)
+    } catch (err) {
+      if (!isAuthError(err) && !isSuspendedError(err)) showToast(formatError(err), 'error')
+    } finally {
+      setUploading(false)
+    }
   }
 
   function handleFile(e) {
@@ -99,7 +106,7 @@ export default function WriteToolbar({ onInsert }) {
           onMouseDown={e => e.preventDefault()}
           onClick={tool.onClick}
           title={tool.label}
-          disabled={uploading && tool.id === 'photo'}
+          disabled={uploading && (tool.id === 'photo' || tool.id === 'video')}
         >
           <Icon d={tool.icon} />
           <span className="write-tool-label">{tool.label}</span>

@@ -1,12 +1,12 @@
 import { getToken, handleUnauthorized } from './authApi'
 
-export async function uploadImage(file) {
+async function uploadTo(endpoint, file) {
   const form = new FormData()
   form.append('file', file)
   const headers = {}
   const token = getToken()
   if (token) headers.Authorization = `Bearer ${token}`
-  const res = await fetch('/api/uploads/image', {
+  const res = await fetch(endpoint, {
     method: 'POST',
     headers,
     body: form,
@@ -18,4 +18,12 @@ export async function uploadImage(file) {
     throw new Error(data.error || `HTTP ${res.status}`)
   }
   return data.url
+}
+
+export function uploadImage(file) {
+  return uploadTo('/api/uploads/image', file)
+}
+
+export function uploadVideo(file) {
+  return uploadTo('/api/uploads/video', file)
 }
