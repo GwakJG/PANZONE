@@ -124,7 +124,12 @@ export default function StatsTracker() {
   }
 
   function handleRefresh() {
-    navigate(`/stats?player=${encodeURIComponent(playerParam)}&t=${Date.now()}`)
+    // Just call loadPlayer directly. Previously navigated with &t=Date.now()
+    // hoping the URL change would re-trigger the effect, but `playerParam`
+    // (params.get('player')) doesn't change, so loadPlayer's useCallback
+    // identity stays the same and the effect never re-runs. Direct call
+    // bypasses that and refreshes immediately.
+    loadPlayer()
   }
 
   const hasResult = !!playerParam
