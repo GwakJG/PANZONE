@@ -1,4 +1,16 @@
 require('dotenv').config()
+
+// Refuse to boot if NODE_ENV is missing — code paths gate dev affordances
+// (devCode, devTempPassword) on `NODE_ENV !== 'production'`. If the operator
+// forgets to set NODE_ENV on the production server, every dev affordance
+// silently activates and starts leaking codes in HTTP responses. Make it
+// explicit. `npm run dev` injects 'development' via cross-env.
+const ALLOWED_ENVS = new Set(['production', 'development', 'test'])
+if (!ALLOWED_ENVS.has(process.env.NODE_ENV)) {
+  console.error(`[fatal] NODE_ENV must be one of: ${[...ALLOWED_ENVS].join(', ')}. Got: ${JSON.stringify(process.env.NODE_ENV)}`)
+  process.exit(1)
+}
+
 const path = require('path')
 const express = require('express')
 const cors = require('cors')
