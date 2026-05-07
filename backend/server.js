@@ -60,6 +60,20 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' })
 })
 
+// JSON 404 — must come after all /api routes but before the error handler.
+app.use('/api/', (req, res) => {
+  res.status(404).json({ error: 'Not found' })
+})
+
+// Global error handler — catches anything an async route forgot to try/catch
+// (Express 5 auto-forwards rejected promises here). Returns JSON, not Express's
+// default HTML, so the frontend's parseJsonOrThrow keeps working.
+app.use((err, req, res, _next) => {
+  console.error('[unhandled]', err)
+  if (res.headersSent) return
+  res.status(500).json({ error: 'Internal error' })
+})
+
 // Daily orphan-upload cleanup. First run 5 min after boot, then every 24h.
 // Manual trigger: `node backend/scripts/cleanup_uploads.js [--dry]`.
 function scheduleUploadCleanup() {

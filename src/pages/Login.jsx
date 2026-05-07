@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
@@ -12,6 +12,7 @@ export default function Login() {
   const showToast = useToast()
   const formatError = useApiError()
   const navigate = useNavigate()
+  const location = useLocation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
@@ -25,7 +26,12 @@ export default function Login() {
     try {
       await login({ email, password, rememberMe })
       showToast(t('login.success'), 'success')
-      navigate(-1)
+      // Prefer the page that sent the user here (when LoginRequiredModal
+      // routed them via /login from a deep link). Fall back to home —
+      // navigate(-1) would walk out of the SPA when /login was the entry.
+      const from = location.state?.from
+      if (from) navigate(from, { replace: true })
+      else navigate('/', { replace: true })
     } catch (err) {
       showToast(formatError(err) || t('login.failed'), 'error')
     } finally {
