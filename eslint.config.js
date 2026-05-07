@@ -18,7 +18,11 @@ export default defineConfig([
       globals: { ...globals.node },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]|^_' }],
+      'no-unused-vars': ['error', {
+        varsIgnorePattern: '^[A-Z_]|^_',
+        argsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      }],
     },
   },
   // Frontend (React + Vite, ESM).

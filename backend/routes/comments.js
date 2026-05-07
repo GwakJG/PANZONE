@@ -149,25 +149,39 @@ router.post('/', authMiddleware, requireActive, async (req, res) => {
       if (parents[0].parent_id !== null) return res.status(400).json({ error: 'Only one-level replies allowed' })
     }
 
-    const [result] = await pool.query(
-      'INSERT INTO comments (post_id, user_id, parent_id, body, image_url) VALUES (?, ?, ?, ?, ?)',
-      [postId, req.user.id, parentId, body.trim(), storedImage]
-    )
-    await pool.query(
-      'UPDATE posts SET comment_count = (SELECT COUNT(*) FROM comments WHERE post_id = ?) WHERE id = ?',
-      [postId, postId]
-    )
-    // Count toward user.comment_count EXCEPT top-level comments on own post (anti-farming).
     const countsForTier = !(postOwnerId === req.user.id && parentId === null)
-    if (countsForTier) {
-      await pool.query(
-        'UPDATE users SET comment_count = comment_count + 1 WHERE id = ?',
-        [req.user.id]
-      )
-      bumpAchievedTier(pool, req.user.id)
-    }
 
-    res.json({ id: result.insertId })
+    const conn = await pool.getConnection()
+    let insertId
+    try {
+      await conn.beginTransaction()
+      const [result] = await conn.query(
+        'INSERT INTO comments (post_id, user_id, parent_id, body, image_url) VALUES (?, ?, ?, ?, ?)',
+        [postId, req.user.id, parentId, body.trim(), storedImage]
+      )
+      insertId = result.insertId
+      // Atomic +1 instead of (SELECT COUNT(*)) full re-scan. Saves O(N) per
+      // comment on hot threads and removes a counter-drift window.
+      await conn.query(
+        'UPDATE posts SET comment_count = comment_count + 1 WHERE id = ?',
+        [postId]
+      )
+      if (countsForTier) {
+        await conn.query(
+          'UPDATE users SET comment_count = comment_count + 1 WHERE id = ?',
+          [req.user.id]
+        )
+      }
+      await conn.commit()
+    } catch (err) {
+      try { await conn.rollback() } catch (_) { /* ignore */ }
+      throw err
+    } finally {
+      conn.release()
+    }
+    if (countsForTier) bumpAchievedTier(pool, req.user.id)
+
+    res.json({ id: insertId })
   } catch (err) {
     console.error('[comments:create]', err)
     res.status(500).json({ error: 'Internal error' })
@@ -214,7 +228,14 @@ router.delete('/:id', authMiddleware, requireActive, async (req, res) => {
     if (!rows.length) return res.status(404).json({ error: 'Comment not found' })
     if (rows[0].user_id !== req.user.id) return res.status(403).json({ error: 'Forbidden' })
 
-    await pool.query('UPDATE comments SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?', [id])
+    // Conditional UPDATE prevents double-decrement when two requests race.
+    const [delRes] = await pool.query(
+      'UPDATE comments SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? AND deleted_at IS NULL',
+      [id]
+    )
+    if (delRes.affectedRows === 0) {
+      return res.json({ ok: true })
+    }
     // Post-level comment_count includes tombstones (keeps comment thread structure).
     // User-level counter only decrements if this comment was counted on creation
     // (i.e., NOT a top-level comment on own post).

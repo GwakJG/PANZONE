@@ -14,32 +14,43 @@ const RETENTION_DAYS = 30
 const PURGE_REASON = '정지 만료로 인한 데이터 삭제'
 
 async function purgeOneUser(userId) {
-  // Soft-delete posts with a machine-readable reason so admin can still see they existed.
-  await pool.query(
-    `UPDATE posts
-     SET deleted_at = CURRENT_TIMESTAMP, deleted_reason = ?
-     WHERE user_id = ? AND deleted_at IS NULL`,
-    [PURGE_REASON, userId]
-  )
-  // Soft-delete comments (tombstone preserves thread shape).
-  await pool.query(
-    `UPDATE comments
-     SET deleted_at = CURRENT_TIMESTAMP
-     WHERE user_id = ? AND deleted_at IS NULL`,
-    [userId]
-  )
-  // Clear personal identifiers that aren't needed for the lock.
-  // Keep: email, name, password_hash (email/name lock re-registration).
-  await pool.query(
-    `UPDATE users
-     SET avatar_url = NULL,
-         bio = NULL,
-         post_count = 0,
-         comment_count = 0,
-         data_purged_at = CURRENT_TIMESTAMP
-     WHERE id = ?`,
-    [userId]
-  )
+  // All three updates must commit atomically. The previous shape ran them
+  // sequentially without a transaction — if the users UPDATE landed first
+  // (data_purged_at set) but the posts/comments UPDATE failed, the next
+  // cron would skip this user (data_purged_at non-null) and the half-
+  // purged state would be permanent.
+  const conn = await pool.getConnection()
+  try {
+    await conn.beginTransaction()
+    await conn.query(
+      `UPDATE posts
+       SET deleted_at = CURRENT_TIMESTAMP, deleted_reason = ?
+       WHERE user_id = ? AND deleted_at IS NULL`,
+      [PURGE_REASON, userId]
+    )
+    await conn.query(
+      `UPDATE comments
+       SET deleted_at = CURRENT_TIMESTAMP
+       WHERE user_id = ? AND deleted_at IS NULL`,
+      [userId]
+    )
+    await conn.query(
+      `UPDATE users
+       SET avatar_url = NULL,
+           bio = NULL,
+           post_count = 0,
+           comment_count = 0,
+           data_purged_at = CURRENT_TIMESTAMP
+       WHERE id = ?`,
+      [userId]
+    )
+    await conn.commit()
+  } catch (err) {
+    try { await conn.rollback() } catch (_) { /* ignore */ }
+    throw err
+  } finally {
+    conn.release()
+  }
 }
 
 async function runSuspensionPurge() {

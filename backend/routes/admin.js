@@ -1082,10 +1082,14 @@ router.delete('/notices/:id', async (req, res) => {
       [id]
     )
     if (!rows.length) return res.status(404).json({ error: 'Post not found' })
-    await pool.query(
-      'UPDATE posts SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?',
+    // Conditional UPDATE prevents double-decrement under concurrent admin clicks.
+    const [delResult] = await pool.query(
+      'UPDATE posts SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? AND deleted_at IS NULL',
       [id]
     )
+    if (delResult.affectedRows === 0) {
+      return res.json({ ok: true })
+    }
     await pool.query(
       'UPDATE users SET post_count = GREATEST(post_count, 1) - 1 WHERE id = ?',
       [rows[0].user_id]

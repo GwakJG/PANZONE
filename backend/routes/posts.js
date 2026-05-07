@@ -467,25 +467,36 @@ router.post('/', authMiddleware, requireActive, async (req, res) => {
     // (unpin → hide from users but keep for admin records). Only set at CREATE
     // time when an admin publishes with pin=1; never set on later pin toggles.
     const adminNoticeSql = isAdmin && pinned ? 'CURRENT_TIMESTAMP' : 'NULL'
-    const [result] = await pool.query(
-      `INSERT INTO posts (board_id, user_id, title, body, subcategory, is_pinned, admin_notice_at)
-       VALUES (?, ?, ?, ?, ?, ?, ${adminNoticeSql})`,
-      [board.id, req.user.id, title.trim(), body, subcategoryValue, pinned]
-    )
-    const postId = result.insertId
 
-    const thumb = extractFirstImage(body)
-    if (thumb) {
-      await pool.query(
-        'INSERT INTO post_images (post_id, url, sort_order) VALUES (?, ?, 0)',
-        [postId, thumb]
+    const conn = await pool.getConnection()
+    let postId
+    try {
+      await conn.beginTransaction()
+      const [result] = await conn.query(
+        `INSERT INTO posts (board_id, user_id, title, body, subcategory, is_pinned, admin_notice_at)
+         VALUES (?, ?, ?, ?, ?, ?, ${adminNoticeSql})`,
+        [board.id, req.user.id, title.trim(), body, subcategoryValue, pinned]
       )
-    }
+      postId = result.insertId
 
-    await pool.query(
-      'UPDATE users SET post_count = post_count + 1 WHERE id = ?',
-      [req.user.id]
-    )
+      const thumb = extractFirstImage(body)
+      if (thumb) {
+        await conn.query(
+          'INSERT INTO post_images (post_id, url, sort_order) VALUES (?, ?, 0)',
+          [postId, thumb]
+        )
+      }
+      await conn.query(
+        'UPDATE users SET post_count = post_count + 1 WHERE id = ?',
+        [req.user.id]
+      )
+      await conn.commit()
+    } catch (err) {
+      try { await conn.rollback() } catch (_) { /* ignore */ }
+      throw err
+    } finally {
+      conn.release()
+    }
     bumpAchievedTier(pool, req.user.id)
 
     res.json({ id: postId, boardSlug })
@@ -607,10 +618,15 @@ router.delete('/:id', authMiddleware, requireActive, async (req, res) => {
       reason = raw.trim().slice(0, 500)
     }
 
-    await pool.query(
-      'UPDATE posts SET deleted_at = CURRENT_TIMESTAMP, deleted_reason = ? WHERE id = ?',
+    // Conditional UPDATE prevents double-decrement when two requests
+    // (e.g., owner + admin moderation) race on the same post.
+    const [delResult] = await pool.query(
+      'UPDATE posts SET deleted_at = CURRENT_TIMESTAMP, deleted_reason = ? WHERE id = ? AND deleted_at IS NULL',
       [reason, id]
     )
+    if (delResult.affectedRows === 0) {
+      return res.json({ ok: true })
+    }
     // Decrement the AUTHOR's post count (not necessarily the deleter).
     await pool.query(
       'UPDATE users SET post_count = GREATEST(post_count, 1) - 1 WHERE id = ?',
