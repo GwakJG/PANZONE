@@ -199,3 +199,4 @@ JWT는 다시 rotate (이전 값 복원 금지 — 이미 노출된 시크릿).
 - `backend/.env`에 `NODE_ENV=production` 누락 시 부팅 거부 — 의도된 동작
 - 신규 의존성: `sanitize-html`, `helmet`, `express-rate-limit`, `cross-env`(devDep)
 - 신규 마이그레이션 없음 — schema_migrations 변경 X
+- **nginx `client_max_body_size = 50M`** — `/etc/nginx/sites-available/panzone`에 박혀있음 (multer video 한도와 일치). git에 안 들어있는 설정이니 서버 재구축 시 빠뜨리지 말 것. 동영상 한도 바꾸면 multer + nginx 둘 다 같이 갱신.
