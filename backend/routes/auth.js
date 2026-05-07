@@ -179,7 +179,12 @@ router.post('/forgot-password', async (req, res) => {
       'SELECT id FROM users WHERE email = ? AND deleted_at IS NULL',
       [email]
     )
-    if (!rows.length) return res.status(404).json({ error: 'Email not registered' })
+    // Always respond { ok: true } regardless of whether the email is registered.
+    // Returning 404 leaks the user list (account enumeration); attackers could
+    // probe forgot-password to build a list of valid signups.
+    if (!rows.length) {
+      return res.json({ ok: true })
+    }
 
     const tempPassword = generateTempPassword()
     const hash = await bcrypt.hash(tempPassword, 10)

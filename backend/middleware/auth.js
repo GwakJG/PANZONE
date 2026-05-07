@@ -2,7 +2,11 @@ const jwt = require('jsonwebtoken')
 const { pool } = require('../db')
 const { bumpAchievedTier } = require('../lib/tier')
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-insecure-secret-change-me'
+const JWT_SECRET = process.env.JWT_SECRET
+if (!JWT_SECRET) {
+  console.error('[fatal] JWT_SECRET is required. Refusing to start with no secret.')
+  process.exit(1)
+}
 // Persistent (자동 로그인 ON) 토큰: 브라우저를 닫아도 유지되는 localStorage 보관용 — 30일.
 // 비-persistent (기본): 세션 단위 sessionStorage 보관용 — 1일이면 충분.
 const JWT_EXPIRES_PERSISTENT = '30d'

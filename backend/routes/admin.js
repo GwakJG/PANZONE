@@ -343,7 +343,16 @@ function sanitizeBannerTitle(v) {
 function sanitizeBannerUrl(v) {
   if (typeof v !== 'string') return null
   const s = v.trim().slice(0, BANNER_URL_MAX)
-  return s || null
+  if (!s) return null
+  // Only allow absolute http(s) URLs or in-app SPA paths starting with `/`.
+  // Blocks javascript:, data:, vbscript:, file:, mailto:, etc.
+  if (!/^(https?:\/\/|\/)/i.test(s)) return null
+  return s
+}
+
+// Same scheme allow-list as sanitizeBannerUrl, used for notification linkUrl.
+function sanitizeLinkUrl(v) {
+  return sanitizeBannerUrl(v)
 }
 
 // GET /api/admin/featured
@@ -1887,7 +1896,7 @@ router.post('/notifications/bulk', async (req, res) => {
       kind: k,
       title: title.trim().slice(0, 200),
       body: body ? String(body).slice(0, 1000) : null,
-      link_url: linkUrl ? String(linkUrl).slice(0, 500) : null,
+      link_url: sanitizeLinkUrl(linkUrl),
     }))
     const count = await insertNotifications(rows)
     res.status(201).json({ count })
@@ -1941,7 +1950,7 @@ router.post('/notifications/broadcast', async (req, res) => {
       kind: k,
       title: title.trim().slice(0, 200),
       body: body ? String(body).slice(0, 1000) : null,
-      link_url: linkUrl ? String(linkUrl).slice(0, 500) : null,
+      link_url: sanitizeLinkUrl(linkUrl),
     }))
     const count = await insertNotifications(rows)
     res.status(201).json({ count })
@@ -1968,7 +1977,7 @@ router.post('/notifications', async (req, res) => {
     const [result] = await pool.query(
       `INSERT INTO notifications (user_id, kind, title, body, link_url)
        VALUES (?, ?, ?, ?, ?)`,
-      [uid, k, title.trim().slice(0, 200), body ? String(body).slice(0, 1000) : null, linkUrl ? String(linkUrl).slice(0, 500) : null]
+      [uid, k, title.trim().slice(0, 200), body ? String(body).slice(0, 1000) : null, sanitizeLinkUrl(linkUrl)]
     )
     // Cap per-user history at 50 — anything older than the 50th most recent is purged.
     await pool.query(
